@@ -10,21 +10,24 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="./css/index.css">
 </head>
-<body class="top-page">
-<div id="app">
-    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">文章</div>
-    <br>
-    <div class="tag-sty">
-        <!--        <el-tag v-for="item in tags" style="margin-left: 0.5rem">{{ item.name }}</el-tag>-->
-    </div>
-    <div style="margin-top: 1%">
-        <div class="car-content" v-for="item in tags" @click="clickContent()">
-            <div style="font-size: 1.3rem;color: #2673bf">假装这是一个标题</div>
-            <div style="font-size: 1rem;color: rgba(87,87,87,0.75);margin-top: 0.5rem">
-                假装这是一段内容，来撑开布局的内容，究竟能变成什么样子，就听天命了
+<body style="background-color: rgba(184,184,184,0.31) ">
+<div id="app" style="display: flex; flex-direction: column">
+    <!--    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">文章</div>-->
+
+    <div style="text-align: center;width: 80%;margin:1% 0 0 8%; padding:2% ;background-color: white">
+        <div>
+            <div style="color: black; margin: 2% 1% 1% 1%;font-size: 1.5rem">
+                {{ content.titleName }}
             </div>
-            <div style="color: rgba(87,87,87,0.57);font-size: 0.9rem;margin-top: 0.5rem">
-                前端 · 2020-06-29
+        </div>
+        <div>
+            <div style="color: rgba(87,87,87,0.82);margin: 1% 1% 1% 1%;font-size: 1.5rem">
+                {{ content.tag }} · {{ content.creatTime }}
+            </div>
+        </div>
+        <div style="margin-top: 1%;margin-left: 1%;font-size: 1.3rem;color: rgba(59,57,57,0.82)">
+            <div>
+                {{ content.realContent }}
             </div>
         </div>
     </div>
@@ -34,12 +37,14 @@
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="./js/data.js"></script>
+<script src="./js/util.js"></script>
 <script>
     new Vue({
         el: '#app',
         data: function () {
             return {
-                tags: getTags()
+                tags: getTags(),
+                content: {}
             }
         },
         methods: {
@@ -48,7 +53,19 @@
             }
         },
         created: function () {
-            console.log(this.tags)
+            let id = getQueryVariable('id');
+
+            let contents = getContent();
+
+            console.log(id)
+            console.log(contents)
+
+            for (let item of contents) {
+                console.log(item)
+                if (item.id === Number(id)) {
+                    this.content = item
+                }
+            }
         }
     })
 </script>

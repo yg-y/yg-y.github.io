@@ -18,13 +18,13 @@
         <!--        <el-tag v-for="item in tags" style="margin-left: 0.5rem">{{ item.name }}</el-tag>-->
     </div>
     <div style="margin-top: 1%">
-        <div class="car-content" v-for="item in tags" @click="clickContent()">
-            <div style="font-size: 1.3rem;color: #2673bf">假装这是一个标题</div>
+        <div class="car-content" v-for="item in contents" @click="clickContent(item.id)">
+            <div style="font-size: 1.3rem;color: #2673bf">{{ item.name }}</div>
             <div style="font-size: 1rem;color: rgba(87,87,87,0.75);margin-top: 0.5rem">
-                假装这是一段内容，来撑开布局的内容，究竟能变成什么样子，就听天命了
+                {{ item.titleName }}
             </div>
             <div style="color: rgba(87,87,87,0.57);font-size: 0.9rem;margin-top: 0.5rem">
-                前端 · 2020-06-29
+                {{ item.tag }} · {{ item.creatTime }}
             </div>
         </div>
     </div>
@@ -39,14 +39,13 @@
         el: '#app',
         data: function () {
             return {
-                tags: getTags()
+                tags: getTags(),
+                contents: getContent()
             }
         },
         methods: {
-            clickContent: function () {
-
-                window.location.href = './content.html'
-
+            clickContent: function (id) {
+                window.location.href = './content.html?id=' + id
             }
         },
         created: function () {
