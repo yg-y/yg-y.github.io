@@ -3,8 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>个人博客</title>
+    <link rel="icon" href="blogyg-logo.png" type="image/x-icon"/>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
-<body>
-<h1>young-yg</h1>
-</body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .top-page {
+        background: linear-gradient(45deg, rgba(254, 172, 94, 0.5), rgba(199, 121, 208, 0.5), rgba(75, 192, 200, 0.5));
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    .but-sty {
+        text-align: center;
+        margin-top: 20%;
+        padding: 1%;
+    }
+
+    .title-text {
+        margin-top: 10%;
+        text-align: center;
+        font-size: 100px;
+        color: rgba(0,0,0,0.67);
+    }
+
+    .text-content {
+        margin-top: 1%;
+        text-align: center;
+        font-size: 80px;
+        color: rgba(0,0,0,0.67);
+    }
+
+</style>
+<div class="top-page" id="app">
+    <div>
+        <div class="title-text">日常分享</div>
+        <div class="text-content">
+            技术文章及摄影文章
+        </div>
+    </div>
+    <div class="but-sty">
+        <el-button type="info" round>技术文章</el-button>
+        <el-button type="info" style="margin-left: 1%;background-color:rgba(122,231,239,0.5);border-color: rgba(255,255,255,0) " round>摄影分享</el-button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {visible: false}
+        }
+    })
+</script>
 </html>
