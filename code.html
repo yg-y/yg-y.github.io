@@ -12,26 +12,51 @@
 </head>
 <style>
     .top-page {
-        background: linear-gradient(45deg, #e3fdfd, #cbf1f5, #a6e3e9);
+        background: linear-gradient(45deg, #cecccc, #98abac, #96c4c7);
         width: 100%;
         height: 100%;
         position: absolute;
     }
 </style>
 <div class="top-page" id="app">
-    <h1 style="text-align: center;color: rgba(87,87,87,0.6);margin-top: 10%">功能正在开发...</h1>
-    <div style="font-size: 100px;text-align: center;">😊</div>
+    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">编程</div>
+    <div class="tag-sty">
+<!--        <el-tag v-for="item in tags" style="margin-left: 0.5rem">{{ item.name }}</el-tag>-->
+    </div>
+    <div style="margin-top: 1%">
+        <div class="car-content" v-for="item in tags" @click="clickContent()">
+            <div style="font-size: 1.3rem;color: #409EFF">假装这是一个标题</div>
+            <div style="font-size: 1rem;color: rgba(87,87,87,0.75);margin-top: 0.5rem">
+                假装这是一段内容，来撑开布局的内容，究竟能变成什么样子，就听天命了
+            </div>
+            <div style="color: rgba(87,87,87,0.57);font-size: 0.9rem;margin-top: 0.5rem">
+                前端 · 2020-06-29
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="./js/data.js"></script>
 <script>
     new Vue({
         el: '#app',
         data: function () {
-            return {}
+            return {
+                tags: getTags()
+            }
         },
-        methods: {}
+        methods: {
+            clickContent: function () {
+
+                alert("给你一个反馈")
+
+            }
+        },
+        created: function () {
+            console.log(this.tags)
+        }
     })
 </script>
 </html>
