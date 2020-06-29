@@ -7,7 +7,20 @@ function getTags() {
         {
             id: 2,
             name: '前端'
-        }, {
+        },
+        {
+            id: 3,
+            name: '数据库'
+        },
+        {
+            id: 3,
+            name: '数据库'
+        },
+        {
+            id: 3,
+            name: '数据库'
+        },
+        {
             id: 3,
             name: '数据库'
         }
