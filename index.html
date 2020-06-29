@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>个人博客</title>
     <link rel="icon" href="blogyg-logo.png" type="image/x-icon"/>
     <!-- 引入样式 -->
@@ -22,6 +23,7 @@
 
     .but-sty {
         text-align: center;
+        width: 100%;
         margin-top: 20%;
         padding: 1%;
     }
@@ -30,27 +32,44 @@
         margin-top: 10%;
         text-align: center;
         font-size: 100px;
-        color: rgba(0,0,0,0.67);
+        color: rgba(0, 0, 0, 0.67);
     }
 
     .text-content {
         margin-top: 1%;
         text-align: center;
-        font-size: 80px;
-        color: rgba(0,0,0,0.67);
+        font-size: 70px;
+        color: rgba(0, 0, 0, 0.67);
+    }
+
+    .but-code {
+        width: 20%;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .but-photo {
+        margin-left: 1%;
+        background-color: rgba(122, 231, 239, 0.5);
+        border-color: rgba(255, 255, 255, 0);
+        width: 20%;
+        height: 50px;
+        font-size: 20px;
     }
 
 </style>
 <div class="top-page" id="app">
     <div>
-        <div class="title-text">日常分享</div>
+        <div class="title-text">小羊的个人博客</div>
         <div class="text-content">
-            技术文章及摄影文章
+            "日常记录编程博客及摄影文章"
         </div>
     </div>
     <div class="but-sty">
-        <el-button type="info" round>技术文章</el-button>
-        <el-button type="info" style="margin-left: 1%;background-color:rgba(122,231,239,0.5);border-color: rgba(255,255,255,0) " round>摄影分享</el-button>
+        <el-button type="info" class="but-code" round>编程入口</el-button>
+        <el-button type="info" class="but-photo"
+                   round>摄影入口
+        </el-button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
