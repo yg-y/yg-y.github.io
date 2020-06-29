@@ -15,7 +15,6 @@
     text-align: center;
     width: 100%;
     margin-top: 20%;
-    padding: 1%;
 }
 
 .title-text {
@@ -33,13 +32,13 @@
 }
 
 .but-code {
+    margin-right: 1%;
     width: 30%;
     height: 4rem;
     font-size: 2rem;
 }
 
 .but-photo {
-    margin-left: 1%;
     background-color: rgba(122, 231, 239, 0.5);
     border-color: rgba(255, 255, 255, 0);
     width: 30%;
