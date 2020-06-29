@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>个人博客</title>
     <link rel="icon" href="blogyg-logo.png" type="image/x-icon"/>
     <!-- 引入样式 -->
@@ -66,9 +67,9 @@
         </div>
     </div>
     <div class="but-sty">
-        <el-button type="info" class="but-code" round>编程入口</el-button>
-        <el-button type="info" class="but-photo"
-                   round>摄影入口
+        <el-button type="info" class="but-code" @click="gotoCode()" round>编程</el-button>
+        <el-button type="danger" class="but-photo" @click="gotoPhoto()"
+                   round>摄影
         </el-button>
     </div>
 </div>
@@ -80,6 +81,15 @@
         el: '#app',
         data: function () {
             return {visible: false}
+        },
+        methods: {
+            gotoCode: function () {
+                window.location.href = './code.html'
+            },
+            gotoPhoto: function () {
+                window.location.href = './photo.html'
+
+            }
         }
     })
 </script>
