@@ -30,11 +30,11 @@
             white-space: pre-wrap;
         }
 
-        .result{
+        .result {
 
         }
 
-        .result img{
+        .result img {
             width: 90%;
         }
     </style>
@@ -43,24 +43,41 @@
 <div id="app">
     <!--    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">文章</div>-->
     <div style="display: flex; flex-direction: column">
-        <div style="text-align: center;width: 90%;margin:1% 0 0 3%; padding:2% ;background-color: white">
+        <div style="text-align: center;width: 94%; padding:3% ;background-color: white">
             <div>
-                <div style="color: black; margin: 2% 1% 1% 1%;font-size: 1.5rem">
+                <div style="color: #2673bf; margin: 2% 1% 1% 1%;font-size: 1.5rem">
                     {{ content.titleName }}
                 </div>
             </div>
             <div>
-                <div style="color: rgba(87,87,87,0.82);margin: 1% 1% 1% 1%;font-size: 1.5rem;">
+                <div style="color: rgba(87,87,87,0.82);font-size: 1rem;">
                     {{ content.tag }} · {{ content.auth }} · {{ content.creatTime }}
                 </div>
             </div>
         </div>
-        <div style="width: 86%;margin:1% 0 0 3%; padding:4% ;background-color: white">
+        <div style="width: 94%;margin-top:1%;padding:3%;background-color: white">
 
             <div class="result" id="result"></div>
         </div>
     </div>
+    <el-button icon="el-icon-s-home" style="
+    z-index: 100;
+    position: fixed;
+    right: 5%;
+    bottom: 6%;
+    float: right;"
+               @click="home()"
+               circle></el-button>
+    <el-button icon="el-icon-caret-left" style="
+    z-index: 100;
+    position: fixed;
+    right: 5%;
+    bottom: 12%;
+    float: right;"
+               @click="back()"
+               circle></el-button>
 </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <!-- 引入组件库 -->
@@ -86,6 +103,12 @@
         methods: {
             clickContent: function () {
                 window.location.href = './content.html'
+            },
+            back: function () {
+                window.history.go(-1)
+            },
+            home: function () {
+                window.location.href = './index.html'
             }
         },
         created: function () {
@@ -94,32 +117,26 @@
             let contents = getContent();
 
             for (let item of contents) {
-                console.log(item)
                 if (item.id === Number(id)) {
                     this.content = item
                 }
             }
-
             let url = this.content.fileUrl
-
             let request = new XMLHttpRequest();
-
             request.open("get", url);
-
             request.send(null);
-
             request.onload = function () {
-
                 if (request.status === 200) {
-
-                    // this.content.text = request.responseText
-
                     let converter = new showdown.Converter();
                     let html = converter.makeHtml(request.responseText);
                     document.getElementById("result").innerHTML = html;
                 }
-
             }
+
+            let tagName = document.getElementsByTagName('title');
+            tagName[0].text = this.content.titleName
+            console.log(tagName)
+
         }
     })
 </script>
