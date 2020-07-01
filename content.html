@@ -8,27 +8,48 @@
     <link rel="icon" href="blogyg-logo.png" type="image/x-icon"/>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="./css/index.css">
+    <style>
+
+        blockquote {
+            border-left: #eee solid 5px;
+            padding-left: 20px;
+        }
+
+        ul li {
+            line-height: 2rem;
+        }
+
+        code {
+            color: #8d3442;
+            background: #F6F6F6;
+
+            word-break: break-word;
+            word-wrap: break-word;
+            /*但在有些场景中，还需要加上下面这行代码*/
+            white-space: pre-wrap;
+        }
+
+    </style>
 </head>
 <body style="background-color: rgba(184,184,184,0.31) ">
-<div id="app" style="display: flex; flex-direction: column">
+<div id="app">
     <!--    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">文章</div>-->
-
-    <div style="text-align: center;width: 80%;margin:1% 0 0 8%; padding:2% ;background-color: white">
-        <div>
-            <div style="color: black; margin: 2% 1% 1% 1%;font-size: 1.5rem">
-                {{ content.titleName }}
-            </div>
-        </div>
-        <div>
-            <div style="color: rgba(87,87,87,0.82);margin: 1% 1% 1% 1%;font-size: 1.5rem">
-                {{ content.tag }} · {{ content.creatTime }}
-            </div>
-        </div>
-        <div style="margin-top: 1%;margin-left: 1%;font-size: 1.3rem;color: rgba(59,57,57,0.82)">
+    <div style="display: flex; flex-direction: column">
+        <div style="text-align: center;width: 90%;margin:1% 0 0 3%; padding:2% ;background-color: white">
             <div>
-                {{ content.realContent }}
+                <div style="color: black; margin: 2% 1% 1% 1%;font-size: 1.5rem">
+                    {{ content.titleName }}
+                </div>
             </div>
+            <div>
+                <div style="color: rgba(87,87,87,0.82);margin: 1% 1% 1% 1%;font-size: 1.5rem;">
+                    {{ content.tag }} · {{ content.auth }} · {{ content.creatTime }}
+                </div>
+            </div>
+        </div>
+        <div style="width: 86%;margin:1% 0 0 3%; padding:4% ;background-color: white">
+
+            <div id="result"></div>
         </div>
     </div>
 </div>
@@ -36,6 +57,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!-- md view -->
+<script type="text/javascript" src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
 <script src="./js/data.js"></script>
 <script src="./js/util.js"></script>
 <script>
@@ -45,6 +68,11 @@
             return {
                 tags: getTags(),
                 content: {}
+            }
+        },
+        computed: {
+            compiledMarkdown: function () {
+                return marked(this.content.realContent, {sanitize: true});
             }
         },
         methods: {
@@ -57,14 +85,32 @@
 
             let contents = getContent();
 
-            console.log(id)
-            console.log(contents)
-
             for (let item of contents) {
                 console.log(item)
                 if (item.id === Number(id)) {
                     this.content = item
                 }
+            }
+
+            let url = this.content.fileUrl
+
+            let request = new XMLHttpRequest();
+
+            request.open("get", url);
+
+            request.send(null);
+
+            request.onload = function () {
+
+                if (request.status === 200) {
+
+                    // this.content.text = request.responseText
+
+                    let converter = new showdown.Converter();
+                    let html = converter.makeHtml(request.responseText);
+                    document.getElementById("result").innerHTML = html;
+                }
+
             }
         }
     })
