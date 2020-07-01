@@ -1,37 +1,36 @@
-## Welcome to GitHub Pages
+# github pages 个人博客模板
 
-You can use the [editor on GitHub](https://github.com/yg-y/yg-y.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+`index.html 博客入口`
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+`/md markdown 文件目录`
 
-### Markdown
+`/photo 图片文件目录`
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+`/css 全局css样式目录`
 
-```markdown
-Syntax highlighted code block
+`/js 全局js目录`
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
 ```
+/js/data.js
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+// 此方法定义编程入口文章列表
+getContent()
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/yg-y/yg-y.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+// 对象说明
+{
+    // 唯一id
+    id: 1,
+    // 文章名称
+    name: 'SkyWalking APM 搭建笔记',
+    // 文章下方说明
+    titleName: 'Skywalking 是一个可观测性分析平台和应用性能管理系统。提供分布式跟踪，服务网格遥测分析，度量聚合和可视化一体化解决方案。',
+    // 文章 markdown 链接地址
+    fileUrl: './md/skywalking.md',
+    // 标签分类
+    tag: '监控',
+    // 文章时间
+    creatTime: '2020-06-30',
+    // 作者
+    auth: '小羊'
+}
+```

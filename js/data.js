@@ -40,6 +40,22 @@ function getContent() {
             auth: '小羊'
         }, {
             id: 2,
+            name: 'Docker搭建MySQL主从同步',
+            titleName: '基于Docker的MySQL主从同步搭建',
+            fileUrl: './md/docker-mysql-master-slave.md',
+            tag: '数据库',
+            creatTime: '2020-07-01',
+            auth: '小羊'
+        }, {
+            id: 3,
+            name: 'Docker搭建RabbitMQ消息队列',
+            titleName: '基于Docker的RabbitMQ消息队列搭建，及简单的生产者消费者示例',
+            fileUrl: './md/rabbit-mq.md',
+            tag: '消息队列',
+            creatTime: '2020-07-01',
+            auth: '小羊'
+        }, {
+            id: 4,
             name: 'Linux常用命令',
             titleName: '记录一些Linux常用的命令',
             fileUrl: './md/linux.md',
@@ -47,7 +63,7 @@ function getContent() {
             creatTime: '2020-07-01',
             auth: '小羊'
         }, {
-            id: 3,
+            id: 5,
             name: '大话设计模式学习笔记',
             titleName: '大话系列读书笔记 - 大话设计模式',
             tag: '设计模式',
@@ -55,7 +71,7 @@ function getContent() {
             creatTime: '2020-07-01',
             auth: '小羊'
         }, {
-            id: 4,
+            id: 6,
             name: 'Redis设计与实现',
             titleName: 'Redis设计与实现 阅读输出笔记',
             fileUrl: './md/redis.md',
@@ -63,7 +79,7 @@ function getContent() {
             creatTime: '2020-07-01',
             auth: '小羊'
         }, {
-            id: 5,
+            id: 7,
             name: 'Docker 安装 Nginx',
             titleName: 'Docker 安装 Nginx',
             fileUrl: './md/docker-nginx.md',
@@ -71,7 +87,7 @@ function getContent() {
             creatTime: '2020-06-29',
             auth: '小羊'
         }, {
-            id: 6,
+            id: 8,
             name: '使用EasyPoi根据权限动态导出列——反射实现',
             titleName: '使用EasyPoi根据权限动态导出列——反射实现',
             fileUrl: './md/excel-permission.md',
