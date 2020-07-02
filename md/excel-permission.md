@@ -26,6 +26,7 @@ public class TestExcle implements Serializable {
 属性 | 类型 |  默认值  |功能
 -|-|-|-
 isColumnHidden |boolean| false |导出隐藏列
+
 ```java
 // 点击@Excel注解进去看到源码
 /**
