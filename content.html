@@ -24,6 +24,7 @@
             color: #8d3442;
             background: #F6F6F6;
 
+            /* 文字自动换行 */
             word-break: break-word;
             word-wrap: break-word;
             /*但在有些场景中，还需要加上下面这行代码*/
@@ -34,6 +35,7 @@
 
         }
 
+        /* 设置 markdown 组件中图片比列 */
         .result img {
             width: 90%;
         }
@@ -41,7 +43,6 @@
 </head>
 <body style="background-color: rgba(184,184,184,0.31) ">
 <div id="app">
-    <!--    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">文章</div>-->
     <div style="display: flex; flex-direction: column">
         <div style="text-align: center;width: 94%; padding:3% ;background-color: white">
             <div>
@@ -96,14 +97,11 @@
             }
         },
         computed: {
-            compiledMarkdown: function () {
-                return marked(this.content.realContent, {sanitize: true});
-            }
+            // compiledMarkdown: function () {
+            //     return marked(this.content.realContent, {sanitize: true});
+            // }
         },
         methods: {
-            clickContent: function () {
-                window.location.href = './content.html'
-            },
             back: function () {
                 window.history.go(-1)
             },
@@ -112,31 +110,32 @@
             }
         },
         created: function () {
+            // 获取地址上的 id 参数
             let id = getQueryVariable('id');
-
             let contents = getContent();
-
+            // 匹配文章
             for (let item of contents) {
                 if (item.id === Number(id)) {
                     this.content = item
                 }
             }
+            // 动态设置标题
+            let tagName = document.getElementsByTagName('title');
+            tagName[0].text = this.content.titleName
+
+            // 请求本地 markdown 文件
             let url = this.content.fileUrl
             let request = new XMLHttpRequest();
             request.open("get", url);
             request.send(null);
             request.onload = function () {
+                // 回写数据到 markdown 组件中预览
                 if (request.status === 200) {
                     let converter = new showdown.Converter();
                     let html = converter.makeHtml(request.responseText);
                     document.getElementById("result").innerHTML = html;
                 }
             }
-
-            let tagName = document.getElementsByTagName('title');
-            tagName[0].text = this.content.titleName
-            console.log(tagName)
-
         }
     })
 </script>
