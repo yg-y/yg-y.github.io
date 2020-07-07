@@ -102,7 +102,40 @@ function getContent() {
             tag: '排版',
             creatTime: '2020-07-02',
             auth: '小羊'
+        }, {
+            id: 10,
+            name: '深入理解JAVA虚拟机阅读输出',
+            titleName: 'java虚拟机在执行java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。\n',
+            fileUrl: './md/jvm/jvm.md',
+            tag: 'JVM',
+            creatTime: '2020-07-07',
+            auth: '小羊'
+        }, {
+            id: 11,
+            name: 'MySQL InnoDB 技术内部阅读输出',
+            titleName: 'InnoDB存储引擎\n' +
+                '\n' +
+                'InnoDB是事务安全的MySQL存储引擎\n' +
+                '\n' +
+                '从MySQL 5.5版本开始是默认的表存储引擎（之前的版本InnoDB存储引擎仅在Windows下为默认的存储引擎）\n' +
+                '\n' +
+                '该存储引擎是第一个完整支持ACID事务的MySQL存储引擎（BDB是第一个支持事务的MySQL存储引擎，现在已经停止开发），\n' +
+                '其特点是行锁设计、支持MVCC、支持外键、提供一致性非锁定读，同时被设计用来最有效地利用以及使用内存和CPU',
+            fileUrl: './md/mysql/mysql-innodb.md',
+            tag: '数据库',
+            creatTime: '2020-07-07',
+            auth: '小羊'
         },
     ]
     return data
+}
+
+function getAuthInfo() {
+
+    let auth = {
+        auth: '桑之落矣',
+        description: '曾经沧海难为水，除却巫山不是云。取次花丛懒回顾，半缘修道半缘君。',
+    }
+
+    return auth
 }

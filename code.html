@@ -10,28 +10,49 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="./css/index.css">
     <style type="text/css">
-        .top-pages {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            position: absolute;
-        }
-        [v-cloak]
-        {
+        [v-cloak] {
             display: none !important;
         }
     </style>
 </head>
-<body class="top-pages">
-<div id="app" v-cloak>
-    <div style="margin-top: 0.5rem;font-size: 3rem;float: left;margin-left: 0.5rem;color: rgba(87,87,87,0.82)">编程</div>
-    <br>
-    <!--  暂时用来分隔  -->
-    <div class="tag-sty">
+<body>
+<div id="app" style="display: flex;flex-direction: row" v-cloak>
+    <div class="left-auth" v-if="checkType">
+        <div class="img-sty">
+            <img src="photo/auth.png">
+            <div class="auth-text">
+                <div style="color: black;text-align: center;margin-top:5%;font-size: 2rem">
+                    {{ authInfo.auth }}
+                </div>
+                <div style="color: rgba(87, 87, 87, 0.75);margin-top:5%;margin-bottom: 5%;">
+                    {{ authInfo.description }}
+                </div>
+            </div>
+        </div>
+        <div>
+            <el-link class="link-menu" @click="gotoPage('index.html')"><i
+                    class="el-icon-s-home el-icon--right"></i> 主页
+            </el-link>
+        </div>
+        <div>
+            <el-link class="link-menu" @click="gotoPage('code.html')"><i
+                    class="el-icon-s-platform el-icon--right"></i> 编程
+            </el-link>
+        </div>
+        <div>
+            <el-link class="link-menu" @click="gotoPage('photo.html')"><i
+                    class="el-icon-camera el-icon--right"></i> 摄影
+            </el-link>
+        </div>
+        <div>
+            <el-link class="link-menu" href="https://github.com/yg-y/yg-y.github.io">
+                <img style="width: 1rem;padding-right: 0.3rem;color: rgba(184,184,184,0.35)" src="photo/github.svg"/>喵喵
+            </el-link>
+        </div>
     </div>
-    <div style="margin-top: 1%">
+    <div class="center-content">
         <div class="car-content" v-for="item in contents" @click="clickContent(item.id)">
-            <div style="font-size: 1.3rem;color: #2673bf">{{ item.name }}</div>
+            <div style="font-size: 1.3rem;color: #73b7ec">{{ item.name }}</div>
             <div style="font-size: 1rem;color: rgba(87,87,87,0.75);margin-top: 0.5rem">
                 {{ item.titleName }}
             </div>
@@ -52,15 +73,50 @@
         data: function () {
             return {
                 tags: getTags(),
-                contents: getContent()
+                contents: getContent(),
+                authInfo: getAuthInfo(),
+                checkType: true,
+                screenWidth: '',
+                screenHeight: '',
+                changeDiv: '',
             }
         },
         methods: {
             clickContent: function (id) {
                 window.location.href = './content.html?id=' + id
+            },
+            getModel: function () {
+                if ((navigator.userAgent.match(/(phone|baipad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+                    this.checkType = false
+                } else {
+                    this.checkType = true
+                }
+            },
+            gotoPage: function (page) {
+                console.log(page)
+                window.location.href = './' + page
             }
         },
         created: function () {
+            this.getModel()
+        },
+        // 自适应屏幕
+        mounted: function () {
+            this.screenWidth = document.body.clientWidth
+            this.screenHeight = document.body.clientHeight
+            this.changeDiv = parseInt(Number(document.body.clientWidth) / 2)
+            window.onresize = () => {
+                return (() => {
+                    this.screenWidth = document.body.clientWidth
+                    this.screenHeight = document.body.clientHeight
+                    // 是否展示author列
+                    if (this.changeDiv >= this.screenWidth || this.screenWidth < 1000) {
+                        this.checkType = false
+                    } else {
+                        this.checkType = true
+                    }
+                })();
+            };
         }
     })
 </script>
