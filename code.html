@@ -45,14 +45,16 @@
             </el-link>
         </div>
         <div>
-            <el-link class="link-menu" href="https://github.com/yg-y/yg-y.github.io">
-                <img style="width: 1rem;padding-right: 0.3rem;color: rgba(184,184,184,0.35)" src="photo/github.svg"/>喵喵
-            </el-link>
+            <el-tooltip class="item" effect="dark" content="点我访问本项目的GitHub地址😊" placement="top">
+                <el-link class="link-menu" href="https://github.com/yg-y/yg-y.github.io">
+                    <img style="width: 1rem;padding-right: 0.3rem;color: rgba(184,184,184,0.35)" src="photo/github.svg"/>喵喵
+                </el-link>
+            </el-tooltip>
         </div>
     </div>
     <div class="center-content">
         <div class="car-content" v-for="item in contents" @click="clickContent(item.id)">
-            <div style="font-size: 1.3rem;color: #73b7ec">{{ item.name }}</div>
+            <div style="font-size: 1.3rem;">{{ item.name }}</div>
             <div style="font-size: 1rem;color: rgba(87,87,87,0.75);margin-top: 0.5rem">
                 {{ item.titleName }}
             </div>
