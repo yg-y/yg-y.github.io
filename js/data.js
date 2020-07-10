@@ -125,6 +125,14 @@ function getContent() {
             tag: '数据库',
             creatTime: '2020-07-07',
             auth: '小羊'
+        }, {
+            id: 12,
+            name: '(1658)Agency: API_Adeals 广告主黑白名单获取教程',
+            titleName: '以下是获取 token 的链接，将一下链接放到 postman 使用 post 请求发送即可获取到 token，举例 ios cpi token 获取，详细操作如图1.0所示：',
+            fileUrl: './md/work/1658.md',
+            tag: '工作',
+            creatTime: '2020-07-10',
+            auth: '小羊'
         },
     ]
     return data
