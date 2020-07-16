@@ -1,8 +1,8 @@
-# Rabbit MQ 搭建及简单教程
+# RabbitMQ 搭建及简单教程
 
-[Rabbit MQ 快速入门官网链接](https://www.rabbitmq.com/getstarted.html)
+[RabbitMQ 快速入门官网链接](https://www.rabbitmq.com/getstarted.html)
 
-> 本教程中 Rabbit MQ 使用 docker-compose 安装
+> 本教程中 RabbitMQ 使用 docker-compose 安装
 
 docker-compose.yml 文件
 
