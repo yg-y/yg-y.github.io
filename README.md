@@ -2,20 +2,10 @@
 
 [体验地址(点我访问)](https://yg-y.github.io)
 > PC版预览效果
-- 首页
-![image.png](http://ww1.sinaimg.cn/large/a760927bgy1ggsjmqxkyhj22yq1gix6p.jpg)
-- 文章页
-![image.png](http://ww1.sinaimg.cn/large/a760927bgy1ggsjrfx2o4j22tg1f8ndx.jpg)
-- 文章页详情
-![image.png](http://ww1.sinaimg.cn/large/a760927bgy1ggsjsj10x9j22ta1gyh0e.jpg)
+![yg-y.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggskeaxlz2j214b1stk1r.jpg)
 
 > 手机版预览效果/H5
-- 首页
-![image.png](http://ww1.sinaimg.cn/large/a760927bgy1ggsk1jmvwyj20uw1hk1kx.jpg)
-- 文章页
-![91594862764_.pic_hd.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggsk3t49maj22sq4sw7wi.jpg)
-- 文章页详情
-![81594862763_.pic_hd.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggsk43namvj22sq4swx6q.jpg)
+![yg-y-h5.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggskgtqx3mj21gi0tjthp.jpg)
 
 #### 2020-07-07 更新:
 ```
