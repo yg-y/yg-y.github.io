@@ -133,6 +133,14 @@ function getContent() {
             tag: '工作',
             creatTime: '2020-07-10',
             auth: '小羊'
+        }, {
+            id: 13,
+            name: '桂林两天两夜摄影行程LOG',
+            titleName: '桂林两天两夜摄影行程LOG',
+            fileUrl: './md/photo/guilin-log.md',
+            tag: '摄影',
+            creatTime: '2020-07-20',
+            auth: '小羊'
         },
     ]
     return data
