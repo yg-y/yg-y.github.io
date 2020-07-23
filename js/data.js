@@ -141,17 +141,25 @@ function getContent() {
             tag: '摄影',
             creatTime: '2020-07-20',
             auth: '小羊'
+        }, {
+            id: 14,
+            name: 'HashMap 底层原理及 JDK 1.8 对于它的优化',
+            titleName: '基于哈希表的Map接口的。 此实现提供所有可选的映射操作，并且允许null值和null键。 \n' +
+                '（HashMap类大致相当于哈希表 ，但它是不同步的，并允许空值。）此类不保证作为对Map的顺序; \n' +
+                '\n' +
+                'HashMap中的一个实例具有影响其性能的两个参数： 初始容量和负载因子 。\n' +
+                '\n' +
+                '容量是在哈希表中桶的数量，和初始容量是简单地在创建哈希表中的时间的能力。\n' +
+                '\n' +
+                '作为一般规则，默认加载因子（0.75）在时间和空间成本之间的良好平衡。\n' +
+                '\n' +
+                '如果初始容量大于负载系数分项的最大数量，则永远不会发生rehash操作。',
+            fileUrl: './md/java/hashmap.md',
+            tag: 'java',
+            creatTime: '2020-07-23',
+            auth: '小羊'
         },
     ]
     return data
 }
 
-function getAuthInfo() {
-
-    let auth = {
-        auth: '桑之落矣',
-        description: '曾经沧海难为水，除却巫山不是云。取次花丛懒回顾，半缘修道半缘君。',
-    }
-
-    return auth
-}
