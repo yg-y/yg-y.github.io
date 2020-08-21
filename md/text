@@ -1,0 +1,952 @@
+package com.kkgame.sspop.offer.service.impl;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kkgame.sspop.am.bean.TopOffer;
+import com.kkgame.sspop.base.BaseAction;
+import com.kkgame.sspop.campaign.bean.Campaign;
+import com.kkgame.sspop.data_rest.DataRestResp;
+import com.kkgame.sspop.data_rest.StatReport;
+import com.kkgame.sspop.mq.OfferStatusLog;
+import com.kkgame.sspop.mq.RabbitMQService;
+import com.kkgame.sspop.offer.bean.*;
+import com.kkgame.sspop.offer.dao.OfferDao;
+import com.kkgame.sspop.offer.service.OfferService;
+import com.kkgame.sspop.publisher.bean.AppVO;
+import com.kkgame.sspop.util.CSTTime;
+import com.kkgame.sspop.util.HTTPX;
+import com.kkgame.sspop.util.MySqlJDBCClient;
+import com.kkgame.sspop.util.OM;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class OfferServiceImpl extends BaseAction implements OfferService {
+
+    private OfferDao offerDao;
+
+    private MySqlJDBCClient opMySqlJDBCClient = new MySqlJDBCClient(
+            "jdbc:mysql://104.250.133.114:8904/kok_ssp?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
+            "root",
+            "@dfei$@DCcsYG"
+    );
+
+    @Autowired
+    private RabbitMQService rabbitMQService;
+
+    //get and set
+    public OfferDao getOfferDao() {
+        return offerDao;
+    }
+
+    public void setOfferDao(OfferDao offerDao) {
+        this.offerDao = offerDao;
+    }
+
+    @Override
+    public void topList(TopOffer topOffer) throws Exception {
+        String temp = topOffer.getSelectValue();
+        topOffer.setSelectValue(temp.substring(0, temp.length() - 1));
+        offerDao.topList(topOffer);
+    }
+
+    @Override
+    public void updateShowTimes(Offer offer) throws Exception {
+        offerDao.updateShowTimes(offer);
+    }
+
+    //创建offer
+    @Override
+    public int createOffer(Offer offer) {
+        return offerDao.createOffer(offer);
+    }
+
+    @Override
+    public List<Offer> getOfferList(String searchValue, String OrderBy, String sortDir, int startIndex, int pageSize) {
+        return offerDao.getOfferList(searchValue, OrderBy, sortDir, startIndex, pageSize);
+    }
+
+
+    @Override
+    public int getOfferCount(String searchValue) {
+        return offerDao.getOffercount(searchValue);
+    }
+
+    @Override
+    public Campaign getCampaignByID(int id) {
+
+        return offerDao.getCampaignByID(id);
+    }
+
+    @Override
+    public Offer getOfferByID(int id) {
+        return offerDao.getOfferByID(id);
+    }
+
+    @Override
+    public Offer updateOffer(Offer offer) {
+        return offerDao.updateOffer(offer);
+    }
+
+    @Override
+    public void updateCampaign(Campaign campaign) throws Exception {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Carrier_Country getCarrier_Country(Map sql) {
+
+        return offerDao.getCarrier_Country(sql);
+    }
+
+    @Override
+    public AppVO getAppByID(int id) {
+        return offerDao.getAppByID(id);
+    }
+
+    public List<Carrier_Country> getCountryCarrier() {
+        return offerDao.getCountryCarrier();
+    }
+
+    @Override
+    public void updateOfferCollectInfo(Offer offer) throws Exception {
+        // TODO Auto-generated method stub
+        offerDao.updateOfferCollectInfo(offer);
+    }
+
+    public Offer getOfferByAdOfferId(Offer offer) throws Exception {
+        return offerDao.getOfferByAdOfferId(offer);
+    }
+
+    public int createOfferInter(Offer offer) throws Exception {
+        return offerDao.createOfferInter(offer);
+    }
+
+    public void updateUpload(Offer offer) throws Exception {
+        offerDao.updateUpload(offer);
+    }
+
+    @Override
+    public void updateOpt(OptOfferVO optOfferVO) throws Exception {
+        offerDao.updataOpt(optOfferVO);
+    }
+
+    @Override
+    public HashMap<String, String> getCountryCarrierHashMap() throws Exception {
+        HashMap<String, String> countryCarrierHashMap = null;
+//        String result = RedisTool.get("countryCarrierHashMap");
+//        if (StringUtil.isEmpty(result) || result.equals("null")) {
+        countryCarrierHashMap = offerDao.getCountryCarrierHashMap();
+//            RedisTool.set("countryCarrierHashMap", JSON.toJSONString(countryCarrierHashMap), 24 * 60 * 60);
+//        } else {
+//            countryCarrierHashMap = (HashMap<String, String>) JSONObject.parseObject(result, HashMap.class);
+//        }
+        return countryCarrierHashMap;
+    }
+
+    @Override
+    public void denyReason(Offer offer) throws Exception {
+        offerDao.denyReason(offer);
+    }
+
+    @Override
+    public List<Offer> getListOffer(Offer offer) throws Exception {
+        return offerDao.getListOffer(offer);
+    }
+
+    @Override
+    public List<OptOfferVO> getOptListOffer(OptOfferVO optOfferVO) throws Exception {
+        return offerDao.getOptListOffer(optOfferVO);
+    }
+
+    @Override
+    public void SaveOfferOptData(List<OfferOptDataVO> offerOptDataVOLsit) throws Exception {
+        offerDao.SaveOfferOptData(offerOptDataVOLsit);
+    }
+
+    @Override
+    public List<OfferOptDataVO> getOfferOptDataList(OfferOptDataVO offerOptDataVO) throws Exception {
+        return offerDao.getOfferOptDataList(offerOptDataVO);
+    }
+
+    @Override
+    public void countOfferOptData(OfferOptDataVO offerOptDataVO) throws Exception {
+        offerDao.countOfferOptData(offerOptDataVO);
+    }
+
+    @Override
+    public void updateStatus(Offer offer) throws Exception {
+        offerDao.updateStatus(offer);
+    }
+
+    @Override
+    public void updateBatchStatus(final OfferStatusUpdateVO offerStatusUpdateVO) throws Exception {
+
+        // 关OP平台的offer
+        opMySqlJDBCClient.executeBatch("update OFFER set  AutoClose = 3, Status = ? WHERE Modes = CONCAT(\",\", ?,\",\") and ID = ? ", new ArrayList<Map<Integer, Object>>() {{
+            List<Integer> ids = offerStatusUpdateVO.getIds();
+            for (int i = 0; i < ids.size(); i++) {
+                Map<Integer, Object> row = new HashMap<Integer, Object>();
+                row.put(1, offerStatusUpdateVO.getStatus());
+                row.put(2, offerStatusUpdateVO.getAppModeId());
+                row.put(3, offerStatusUpdateVO.getIds().get(i));
+                add(row);
+            }
+        }});
+        for (Integer id : offerStatusUpdateVO.getIds()) {
+            this.rabbitMQService.sendMessage(this.getRequest().getSession(), new OfferStatusLog(id, offerStatusUpdateVO.getStatus(), "OP", "自动操作"),
+                    "OfferServiceImpl.updateBatchStatus", "185, 特别说明：SSP平台操作OP库 , 且为第三方关闭状态");
+        }
+
+        // 关SSP平台的 offer
+        offerDao.updateBatchStatus(offerStatusUpdateVO);
+    }
+
+    @Override
+    public void updateAmStatus(Offer offer) throws Exception {
+        offerDao.updateAmStatus(offer);
+        offerDao.updateImportCpmOfferStatus(offer);
+    }
+
+    @Override
+    public void updateIsRecommend(Offer offer) throws Exception {
+        offerDao.updateIsRecommend(offer);
+    }
+
+    @Override
+    public void batchRecommend(TopOffer topOffer) throws Exception {
+        String temp = topOffer.getSelectValue();
+        topOffer.setSelectValue(temp.substring(0, temp.length() - 1));
+        logger.info("----batchRecommend---" + topOffer.getSelectValue());
+        offerDao.batchRecommend(topOffer);
+    }
+
+    @Override
+    public void updatePublisherPayoutAndSalePercent(Offer offer) {
+        offerDao.updatePublisherPayoutAndSalePercent(offer);
+    }
+
+    @Override
+    public void updateImportCpmOfferStatus(Offer offer) throws Exception {
+        offerDao.updateImportCpmOfferStatus(offer);
+    }
+
+    @Override
+    public void updateImportCpmOfferInfo(Offer offer) throws Exception {
+        offerDao.updateImportCpmOfferInfo(offer);
+    }
+
+    @Override
+    public List<CpiOfferTestVO> getCpiOfferTestListData(CpiOfferTestVO cpiOfferTestVO) throws Exception {
+        return offerDao.getCpiOfferTestListData(cpiOfferTestVO);
+    }
+
+    @Override
+    public List<OfferTestReportEntity> getCpiOfferTestListReport(CpiOfferTestVO cpiOfferTestVO) throws Exception {
+        return offerDao.getCpiOfferTestListReport(cpiOfferTestVO);
+    }
+
+    @Override
+    public CpiOfferTestVO getCpiOfferTestResult(CpiOfferTestVO cpiOfferTestVO) throws Exception {
+        return offerDao.getCpiOfferTestResult(cpiOfferTestVO);
+    }
+
+    @Override
+    public void updateSpyStatus(List<CpiOfferTestVO> cpiOfferTestVOList) throws Exception {
+        offerDao.updateSpyStatus(cpiOfferTestVOList);
+    }
+
+    @Override
+    public void updateRecommendAppList(Offer offer) throws Exception {
+        offerDao.updateRecommendAppList(offer);
+    }
+
+    @Override
+    public void updateBulkOfferRecommend(Offer offer) throws Exception {
+        offerDao.updateBulkOfferRecommend(offer);
+    }
+
+    @Override
+    public String getRecommendAppListById(int id) throws Exception {
+        return offerDao.getRecommendAppListById(id);
+    }
+
+    @Override
+    public void cpiApiOfferShutdown() {
+        try {
+
+            //最近2个月
+            String startBTime = CSTTime.now.modifyHourAsBTime(-24.0 * 60);
+            String endBTime = CSTTime.now.modifyHourAsBTime(0.0);
+
+            DataRestResp<List<StatReport>> resp = HTTPX
+                    .param("roleId", "0")
+                    .param("roleType", "SP")
+                    .param("orderType", "desc")
+                    .param("startDate", startBTime.split(" ")[0]) //待删，有startTime即可
+                    .param("endDate", endBTime.split(" ")[0])     //待删，有endTime即可
+                    //.param("startTime", startBTime)
+                    //.param("endTime", endBTime)
+                    .param("clickCount.value", "50000")
+                    .param("clickCount.operator", ">")
+                    .param("realEcpc.value", "0.05")
+                    .param("realEcpc.operator", "<")
+                    .param("reportType", "admin")
+                    .param("appModeId", 8)
+                    .param("page", "1")
+                    .param("orderBy", "realEcpc")
+                    .param("groupBy", "offerId")
+                    .param("length", Integer.MAX_VALUE)
+                    .param("start", "0")
+                    .tries(10)
+                    .timeout(60)
+                    .get("http://104.250.136.138:5555/SightOverallReport/v2", new TypeReference<DataRestResp<List<StatReport>>>() {
+                    });
+
+            List<Integer> ids = new ArrayList<Integer>();
+            for (StatReport st : resp.getPageData()) {
+                ids.add(st.getOfferId());
+            }
+
+            logger.error("Auto close offer ids: " + OM.toJOSN(ids));
+
+            if (ids.size() > 0) {
+                //status:0 是关停offer
+                this.updateBatchStatus(new OfferStatusUpdateVO(ids, 0, 8));
+            }
+
+        } catch (Exception e) {
+            logger.error("Auto close offer fail", e);
+        }
+    }
+
+    @Override
+    public void updateOffer2(Offer offer) throws Exception {
+        offerDao.updateOffer2(offer);
+    }
+
+    @Override
+    public void updateOpTypeAndSubIds(Offer offer) throws Exception {
+        offerDao.updateOpTypeAndSubIds(offer);
+
+    }
+
+    @Override
+    public List<Offer> getOfferIdNameById(int id) {
+        return offerDao.getOfferIdNameById(id);
+    }
+
+    @Override
+    public void updateOfferDesc(Offer offer) {
+        offerDao.updateOfferDesc(offer);
+    }
+
+    @Override
+    public List<AppVO> getAppByIDs(List<String> asList) {
+        return offerDao.getAppByIDs(asList);
+    }
+
+}
+
+
+
+
+
+
+package com.kkgame.sspop.offer.dao.impl;
+
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.kkgame.sspop.am.bean.TopOffer;
+import com.kkgame.sspop.base.PkigConstants;
+import com.kkgame.sspop.base.bean.InfoVO;
+import com.kkgame.sspop.campaign.bean.Campaign;
+import com.kkgame.sspop.campaign.service.CampaignService;
+import com.kkgame.sspop.mq.OfferStatusLog;
+import com.kkgame.sspop.mq.RabbitMQService;
+import com.kkgame.sspop.offer.bean.*;
+import com.kkgame.sspop.offer.dao.OfferDao;
+import com.kkgame.sspop.publisher.bean.AppVO;
+import com.kkgame.sspop.tag.service.SystemService;
+import com.kkgame.sspop.util.message.MessagePushReq;
+import com.kkgame.sspop.util.message.client.MessageClient;
+import net.sf.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class OfferDaoImpl extends SqlMapClientDaoSupport implements OfferDao {
+
+    private Campaign campaign;
+    private CampaignService campaignService;
+    private SystemService systemService;
+    //get && set
+
+    public Campaign getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+    public CampaignService getCampaignService() {
+        return campaignService;
+    }
+
+    public void setCampaignService(CampaignService campaignService) {
+        this.campaignService = campaignService;
+    }
+
+    public void setSqlMapClientForAutowire(SqlMapClient sqlMapClient) {
+        super.setSqlMapClient(sqlMapClient);
+    }
+
+    public SystemService getSystemService() {
+        return systemService;
+    }
+
+    public void setSystemService(SystemService systemService) {
+        this.systemService = systemService;
+    }
+
+    MessageClient messageClient = new MessageClient(PkigConstants.BIG_DATA_URL);
+
+    @Autowired
+    private RabbitMQService rabbitMQService;
+
+    @Autowired
+    private HttpSession session;
+
+    @Override
+    public void updateOfferCollectInfo(Offer offer) throws Exception {
+        // TODO Auto-generated method stub
+        getSqlMapClientTemplate().update("offerSqlMap.updateOfferCollectInfo", offer);
+
+        //通知大数据更新配置信息 start
+        List<InfoVO> infoList = new ArrayList<>();
+        Map<String, Object> whereMap = new HashMap<>();
+        whereMap.put("Id", offer.getId());
+        InfoVO infoVO = new InfoVO();
+        infoVO.setTable("OFFER");
+        infoVO.setWhere(whereMap);
+        infoList.add(infoVO);
+
+        messageClient.pushMessage(new MessagePushReq(
+                "config_update ",     //config_update
+                JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+        ));
+        //通知大数据更新配置信息 end
+
+    }
+
+    //创建offer
+    @Override
+    public int createOffer(Offer offer) {
+        offer.setUniqueid(UUID.randomUUID().toString());
+        getSqlMapClientTemplate().insert("offerSqlMap.createOffer", offer);
+
+        int newOfferId = (int) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferByUniqueid", offer);
+        offer.setAdOfferId(newOfferId);
+        offer.setId(newOfferId);
+        getSqlMapClientTemplate().update("offerSqlMap.updateOffer", offer);
+
+        rabbitMQService.sendMessage(session, new OfferStatusLog(offer.getId(), offer.getStatus(), "SSP", "手动操作"), "OfferDaoImpl.createOffer", "103");
+
+        if (!"no".equals(offer.getIsOfferCount())) {
+            //campaign 的offerCount字段增加offer数
+            int id = offer.getCampaignId();
+            Campaign cam = new Campaign();
+            cam.setId(id);
+            try {
+                cam = (Campaign) getSqlMapClientTemplate().queryForObject("campaignSqlMap.getCampaign", cam);
+                int count = cam.getOfferCount();
+                cam.setOfferCount(count + 1);
+                getSqlMapClientTemplate().update("campaignSqlMap.updateCampaign", cam);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return newOfferId;
+    }
+
+    public int createOfferInter(Offer offer) throws Exception {
+        offer.setUniqueid(UUID.randomUUID().toString());
+        getSqlMapClientTemplate().insert("offerSqlMap.createOfferInter", offer);
+        return (int) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferByUniqueid", offer);
+    }
+
+
+    @Override
+    public List getOfferList(String searchValue, String OrderBy, String sortDir, int startIndex, int pageSize) {
+        StringBuffer sql = new StringBuffer();
+        HashMap<Integer, String> countryMap = (HashMap<Integer, String>) getSqlMapClientTemplate().queryForMap("offerSqlMap.getAllCountryMap", "", "id", "name");
+        sql.append(searchValue);
+        if (!"-1".equals(OrderBy)) {
+            int by = Integer.valueOf(OrderBy) + 1;
+            sql.append(" order by ");
+            sql.append(by);
+            sql.append(" ");
+            sql.append(sortDir);
+            sql.append(" limit ");
+            sql.append(startIndex);
+            sql.append(",");
+            sql.append(pageSize);
+        }
+        // 查询结果集list
+        List<Offer> result = getSqlMapClientTemplate().queryForList("offerSqlMap.dataTableFind", sql.toString());
+        for (int i = 0; i < result.size(); i++) {
+            StringBuffer temp = new StringBuffer();
+            String countrys = result.get(i).getCountryIds();
+            String[] a = countrys.split(",");
+            for (int t = 1; t < a.length; t++) {
+                int countryId = Integer.valueOf(a[t]);
+
+                String name_code = countryMap.get(countryId);
+                String[] name_codeTemp = name_code.split("=");
+                String name = name_codeTemp[0];
+                temp.append(name + ",");
+            }
+            result.get(i).setCountry(temp.toString());
+        }
+        return result;
+    }
+
+
+    @Override
+    public int getOffercount(String searchValue) {
+        int count = getSqlMapClientTemplate().queryForList("offerSqlMap.countAll", searchValue).size();
+        return count;
+    }
+
+    @Override
+    public Offer getOfferByID(int id) {
+        return (Offer) getSqlMapClientTemplate().queryForObject("offerSqlMap.findOfferByID", id);
+    }
+
+    @Override
+    public Offer updateOffer(Offer offer) {
+        getSqlMapClientTemplate().update("offerSqlMap.updateOffer", offer);
+        rabbitMQService.sendMessage(session, new OfferStatusLog(offer.getId(), offer.getStatus(), "SSP", "手动操作"),
+                "OfferDaoImpl.updateImportCpmOfferInfo", "181");
+        //通知大数据更新配置信息 start
+        List<InfoVO> infoList = new ArrayList<>();
+        Map<String, Object> whereMap = new HashMap<>();
+        whereMap.put("Id", offer.getId());
+        InfoVO infoVO = new InfoVO();
+        infoVO.setTable("OFFER");
+        infoVO.setWhere(whereMap);
+        infoList.add(infoVO);
+
+        messageClient.pushMessage(new MessagePushReq(
+                "config_update ",     //config_update
+                JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+        ));
+        //通知大数据更新配置信息 end
+
+        return offer;
+    }
+
+    @Override
+    public Campaign getCampaignByID(int id) {
+        return (Campaign) getSqlMapClientTemplate().queryForObject("offerSqlMap.getCampaign", id);
+    }
+
+    @Override
+    public Carrier_Country getCarrier_Country(Map sql) {
+        return (Carrier_Country) getSqlMapClientTemplate().queryForObject("offerSqlMap.getCarrier_Country", sql);
+    }
+
+    @Override
+    public AppVO getAppByID(int id) {
+        return (AppVO) getSqlMapClientTemplate().queryForObject("offerSqlMap.findAppByID", id);
+    }
+
+    public List<Carrier_Country> getCountryCarrier() {
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.getCountry_Carrier");
+    }
+
+    public Offer getOfferByAdOfferId(Offer offer) throws Exception {
+        return (Offer) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferByAdOfferId", offer);
+    }
+
+    @Override
+    public void updateUpload(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateUpload", offer);
+
+        //通知大数据更新配置信息 start
+        List<InfoVO> infoList = new ArrayList<>();
+        Map<String, Object> whereMap = new HashMap<>();
+        whereMap.put("Id", offer.getId());
+        InfoVO infoVO = new InfoVO();
+        infoVO.setTable("OFFER");
+        infoVO.setWhere(whereMap);
+        infoList.add(infoVO);
+
+        messageClient.pushMessage(new MessagePushReq(
+                "config_update ",     //config_update
+                JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+        ));
+        //通知大数据更新配置信息 end
+    }
+
+    @Override
+    public void updateCampaign(Campaign campaign) throws Exception {
+
+    }
+
+    @Override
+    public void updataOpt(OptOfferVO optOfferVO) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateOpt", optOfferVO);
+
+        //通知大数据更新配置信息 start
+        List<InfoVO> infoList = new ArrayList<>();
+        Map<String, Object> whereMap = new HashMap<>();
+        whereMap.put("Id", optOfferVO.getId());
+        InfoVO infoVO = new InfoVO();
+        infoVO.setTable("OFFER");
+        infoVO.setWhere(whereMap);
+        infoList.add(infoVO);
+
+        messageClient.pushMessage(new MessagePushReq(
+                "config_update ",     //config_update
+                JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+        ));
+        //通知大数据更新配置信息 end
+    }
+
+    @Override
+    public void topList(TopOffer topOffer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.topList", topOffer);
+
+        String offerIds = topOffer.getSelectValue();
+        String[] offerIdsTemp = offerIds.split(",");
+        for (int i = 0; i < offerIdsTemp.length; i++) {
+            //通知大数据更新配置信息 start
+            List<InfoVO> infoList = new ArrayList<>();
+            Map<String, Object> whereMap = new HashMap<>();
+            whereMap.put("Id", offerIdsTemp[i]);
+            InfoVO infoVO = new InfoVO();
+            infoVO.setTable("OFFER");
+            infoVO.setWhere(whereMap);
+            infoList.add(infoVO);
+
+            messageClient.pushMessage(new MessagePushReq(
+                    "config_update ",     //config_update
+                    JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+            ));
+            //通知大数据更新配置信息 end
+        }
+    }
+
+    @Override
+    public void updateShowTimes(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateShowTimes", offer);
+    }
+
+
+    @Override
+    public HashMap<String, String> getCountryCarrierHashMap() throws Exception {
+        return (HashMap<String, String>) getSqlMapClientTemplate().queryForMap("offerSqlMap.getCountryCarrierHashMap", "", "countryId", "countryName");
+    }
+
+    @Override
+    public void denyReason(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.denyReason", offer);
+
+        //通知大数据更新配置信息 start
+        List<InfoVO> infoList = new ArrayList<>();
+        Map<String, Object> whereMap = new HashMap<>();
+        whereMap.put("Id", offer.getId());
+        InfoVO infoVO = new InfoVO();
+        infoVO.setTable("OFFER");
+        infoVO.setWhere(whereMap);
+        infoList.add(infoVO);
+
+        messageClient.pushMessage(new MessagePushReq(
+                "config_update ",     //config_update
+                JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+        ));
+        //通知大数据更新配置信息 end
+    }
+
+    @Override
+    public List<Offer> getListOffer(Offer offer) throws Exception {
+        int count = (Integer) getSqlMapClientTemplate().queryForObject("offerSqlMap.listOfferCount", offer);
+        offer.getPageVO().setTotalCount(count);
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.listOffer", offer);
+    }
+
+    public List<OptOfferVO> getOptListOffer(OptOfferVO optOfferVO) throws Exception {
+        int count = (Integer) getSqlMapClientTemplate().queryForObject("offerSqlMap.optListOfferCount", optOfferVO);
+        optOfferVO.getPageVO().setTotalCount(count);
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.optListOffer", optOfferVO);
+    }
+
+    @Override
+    public void SaveOfferOptData(List<OfferOptDataVO> offerOptDataVOList) throws Exception {
+        SqlMapClient client = getSqlMapClient();
+        try {
+            client.startTransaction();
+            client.startBatch();
+            for (OfferOptDataVO offerOptDataVO : offerOptDataVOList) {
+                client.insert("offerSqlMap.insertOfferOptData", offerOptDataVO);
+            }
+            client.executeBatch();
+            client.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<OfferOptDataVO> getOfferOptDataList(OfferOptDataVO offerOptDataVO) throws Exception {
+        int count = (Integer) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferOptDataListCount", offerOptDataVO);
+        offerOptDataVO.getPageVO().setTotalCount(count);
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.getOfferOptDataList", offerOptDataVO);
+    }
+
+    @Override
+    public void countOfferOptData(OfferOptDataVO offerOptDataVO) throws Exception {
+        SqlMapClient client = getSqlMapClient();
+        //获取前一天
+        Calendar c = Calendar.getInstance();
+//		c.add(Calendar.DATE, 0);
+        c.add(Calendar.DATE, -1);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        offerOptDataVO.setStatDate(simpleDateFormat.format(c.getTime()));
+        //获取BD创建offer数 运营提交offer分析数
+        OfferOptDataVO offerOptDataVO_offerCount = (OfferOptDataVO) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferOptData_offerCount", offerOptDataVO);
+        OfferOptDataVO offerOptDataVO_applyCount = (OfferOptDataVO) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOfferOptData_applyCount", offerOptDataVO);
+
+        //获取opt数
+        List<OfferOptDataVO> offerOptDataVOList_optCount = getSqlMapClientTemplate().queryForList("offerSqlMap.getOfferOptData_optCount", offerOptDataVO);
+        try {
+            client.startTransaction();
+            client.startBatch();
+            for (OfferOptDataVO offerOptDataVOList_optCountVO : offerOptDataVOList_optCount) {
+                offerOptDataVOList_optCountVO.setOfferCount(offerOptDataVO_offerCount.getOfferCount());
+                offerOptDataVOList_optCountVO.setApplyCount(offerOptDataVO_applyCount.getApplyCount());
+                offerOptDataVOList_optCountVO.setStatDate(simpleDateFormat.format(c.getTime()));
+                client.insert("offerSqlMap.insertOfferOptData_optCount", offerOptDataVOList_optCountVO);
+            }
+            client.executeBatch();
+            client.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //optFailCount
+        List<OfferOptDataVO> offerOptDataVOList_optFailCount = getSqlMapClientTemplate().queryForList("offerSqlMap.getOfferOptData_optFailCount", offerOptDataVO);
+        try {
+            client.startTransaction();
+            client.startBatch();
+            for (OfferOptDataVO offerOptDataVOList_optFailCountVO : offerOptDataVOList_optFailCount) {
+                offerOptDataVOList_optFailCountVO.setOfferCount(offerOptDataVO_offerCount.getOfferCount());
+                offerOptDataVOList_optFailCountVO.setApplyCount(offerOptDataVO_applyCount.getApplyCount());
+                offerOptDataVOList_optFailCountVO.setStatDate(simpleDateFormat.format(c.getTime()));
+                client.insert("offerSqlMap.insertOfferOptData_optFailCount", offerOptDataVOList_optFailCountVO);
+            }
+            client.executeBatch();
+            client.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //optSuccessCount
+        List<OfferOptDataVO> offerOptDataVOList_optSuccessCount = getSqlMapClientTemplate().queryForList("offerSqlMap.getOfferOptData_optSuccessCount", offerOptDataVO);
+        try {
+            client.startTransaction();
+            client.startBatch();
+            for (OfferOptDataVO offerOptDataVOList_optSuccessCountVO : offerOptDataVOList_optSuccessCount) {
+                offerOptDataVOList_optSuccessCountVO.setOfferCount(offerOptDataVO_offerCount.getOfferCount());
+                offerOptDataVOList_optSuccessCountVO.setApplyCount(offerOptDataVO_applyCount.getApplyCount());
+                offerOptDataVOList_optSuccessCountVO.setStatDate(simpleDateFormat.format(c.getTime()));
+                client.insert("offerSqlMap.insertOfferOptData_optSuccessCount", offerOptDataVOList_optSuccessCountVO);
+            }
+            client.executeBatch();
+            client.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //如果分析数据都无，则单独插入offerCount,applyCount。（因为前面分析数为0时没有分析者id不能先插入offerCount,applyCount）
+        if (offerOptDataVOList_optCount.size() == 0 && offerOptDataVOList_optFailCount.size() == 0 && offerOptDataVOList_optSuccessCount.size() == 0) {
+            OfferOptDataVO offerOptDataVOList_offer_applyCountVO = new OfferOptDataVO();
+            offerOptDataVOList_offer_applyCountVO.setOfferCount(offerOptDataVO_offerCount.getOfferCount());
+            offerOptDataVOList_offer_applyCountVO.setApplyCount(offerOptDataVO_applyCount.getApplyCount());
+            offerOptDataVOList_offer_applyCountVO.setStatDate(simpleDateFormat.format(c.getTime()));
+            getSqlMapClientTemplate().insert("offerSqlMap.insertOfferOptData_offer_apply_count", offerOptDataVOList_offer_applyCountVO);
+        }
+    }
+
+    @Override
+    public void updateStatus(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateStatus", offer);
+        rabbitMQService.sendMessage(session, new OfferStatusLog(offer.getId(), offer.getStatus(), "SSP", "手动操作"),
+                "OfferDaoImpl.updateStatus", "434");
+    }
+
+    @Override
+    public void updateBatchStatus(OfferStatusUpdateVO offerStatusUpdateVO) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateBatchStatus", offerStatusUpdateVO);
+        for (Integer id : offerStatusUpdateVO.getIds()) {
+            rabbitMQService.sendMessage(session, new OfferStatusLog(id, offerStatusUpdateVO.getStatus(), "OP", "自动操作"),
+                    "OfferDaoImpl.updateStatus", "434 , 特别说明： SSP平台操作OP库 , 且为第三方关闭状态");
+        }
+
+    }
+
+    @Override
+    public void updateAmStatus(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateAmStatus", offer);
+    }
+
+    @Override
+    public void updateIsRecommend(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateIsRecommend", offer);
+    }
+
+    @Override
+    public void batchRecommend(TopOffer topOffer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.batchRecommend", topOffer);
+
+        String offerIds = topOffer.getSelectValue();
+        String[] offerIdsTemp = offerIds.split(",");
+        for (int i = 0; i < offerIdsTemp.length; i++) {
+            //通知大数据更新配置信息 start
+            List<InfoVO> infoList = new ArrayList<>();
+            Map<String, Object> whereMap = new HashMap<>();
+            whereMap.put("Id", offerIdsTemp[i]);
+            InfoVO infoVO = new InfoVO();
+            infoVO.setTable("OFFER");
+            infoVO.setWhere(whereMap);
+            infoList.add(infoVO);
+
+            messageClient.pushMessage(new MessagePushReq(
+                    "config_update ",     //config_update
+                    JSONArray.fromObject(infoList).toString()  //infoData转成JSONArray格式发送
+            ));
+            //通知大数据更新配置信息 end
+        }
+    }
+
+    @Override
+    public void updatePublisherPayoutAndSalePercent(Offer offer) {
+        getSqlMapClientTemplate().update("offerSqlMap.updatePublisherPayoutAndSalePercent", offer);
+    }
+
+    //关闭导出的cpm Offer
+    @Override
+    public void updateImportCpmOfferStatus(Offer offer) throws Exception {
+        if (offer.getStatus() == 0) {
+            getSqlMapClientTemplate().update("offerSqlMap.updateCpmOfferStatus", offer);
+            rabbitMQService.sendMessage(session, new OfferStatusLog(offer.getId(), offer.getStatus(), "SSP", "手动操作"),
+                    "OfferDaoImpl.updateImportCpmOfferStatus", "489");
+        } else if (offer.getAmStatus() == 2) {
+            getSqlMapClientTemplate().update("offerSqlMap.updateCpmOfferAmStatus", offer);
+        }
+    }
+
+    @Override
+    public void updateImportCpmOfferInfo(Offer offer) throws Exception {
+
+        offer = (Offer) getSqlMapClientTemplate().queryForObject("offerSqlMap.getOldImportCpaOfferInfo", offer);
+
+        getSqlMapClientTemplate().update("offerSqlMap.updateImportCpmOfferInfo", offer);
+        rabbitMQService.sendMessage(session, new OfferStatusLog(offer.getId(), offer.getStatus(), "SSP", "手动操作"),
+                "OfferDaoImpl.updateImportCpmOfferInfo", "496");
+
+    }
+
+
+    @Override
+    public List<CpiOfferTestVO> getCpiOfferTestListData(CpiOfferTestVO cpiOfferTestVO) throws Exception {
+
+        int count = (int) getSqlMapClientTemplate().queryForObject("offerSqlMap.getCpiOfferTestListDataCount", cpiOfferTestVO);
+        cpiOfferTestVO.getPageVO().setTotalCount(count);
+
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.getCpiOfferTestListData", cpiOfferTestVO);
+    }
+
+    @Override
+    public CpiOfferTestVO getCpiOfferTestResult(CpiOfferTestVO cpiOfferTestVO) throws Exception {
+        return (CpiOfferTestVO) getSqlMapClientTemplate().queryForObject("offerSqlMap.getCpiOfferTestResult", cpiOfferTestVO);
+    }
+
+    @Override
+    public void updateSpyStatus(List<CpiOfferTestVO> cpiOfferTestVOList) throws Exception {
+
+        SqlMapClient client = getSqlMapClient();
+        try {
+            client.startTransaction();
+            client.startBatch();
+            for (CpiOfferTestVO cpiOfferTestVO : cpiOfferTestVOList) {
+                client.update("offerSqlMap.updateSpyStatus", cpiOfferTestVO);
+            }
+            client.executeBatch();
+            client.endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void updateRecommendAppList(Offer offer) {
+        getSqlMapClientTemplate().update("offerSqlMap.updateRecommendAppList", offer);
+    }
+
+
+    @Override
+    public List<OfferTestReportEntity> getCpiOfferTestListReport(CpiOfferTestVO cpiOfferTestVO) {
+        int count = (int) getSqlMapClientTemplate().queryForObject("offerSqlMap.getCpiOfferTestListReportCount", cpiOfferTestVO);
+        cpiOfferTestVO.getPageVO().setTotalCount(count);
+
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.getCpiOfferTestListReport", cpiOfferTestVO);
+
+    }
+
+    @Override
+    public void updateBulkOfferRecommend(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateBulkOfferRecommend", offer);
+    }
+
+    @Override
+    public String getRecommendAppListById(int id) throws Exception {
+        return (String) getSqlMapClientTemplate().queryForObject("offerSqlMap.getRecommendAppListById", id);
+    }
+
+    @Override
+    public void updateOffer2(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateOffer2", offer);
+    }
+
+    @Override
+    public void updateOpTypeAndSubIds(Offer offer) throws Exception {
+        getSqlMapClientTemplate().update("offerSqlMap.updateOpTypeAndSubIds", offer);
+
+    }
+
+    @Override
+    public List<Offer> getOfferIdNameById(int id) {
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.getOfferIdNameById", id);
+    }
+
+    @Override
+    public void updateOfferDesc(Offer offer) {
+        getSqlMapClientTemplate().update("offerSqlMap.updateOfferDesc", offer);
+    }
+
+    @Override
+    public List<AppVO> getAppByIDs(List<String> asList) {
+        Map<String, List> ids = new HashMap<>();
+        ids.put("ids", asList);
+        return getSqlMapClientTemplate().queryForList("offerSqlMap.findAppByIDs", ids);
+    }
+
+}

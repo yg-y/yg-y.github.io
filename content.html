@@ -18,7 +18,7 @@
 </head>
 <body>
 <div id="app" v-cloak>
-    <div style="display: flex; flex-direction: column;padding: 1rem">
+    <div :style="checkType?'display: flex; flex-direction: column;padding:1rem 18rem' : 'display: flex; flex-direction: column;padding:1rem '">
         <div style="text-align: center;width: 94%; padding:3% ;background-color: white">
             <div>
                 <div style="color: #2673bf; margin: 2% 1% 1% 1%;font-size: 1.5rem">
@@ -68,7 +68,11 @@
         data: function () {
             return {
                 tags: getTags(),
-                content: {}
+                checkType: true,
+                content: {},
+                screenWidth: '',
+                screenHeight: '',
+                changeDiv: '',
             }
         },
         computed: {
@@ -82,9 +86,19 @@
             },
             home: function () {
                 window.location.href = './index.html'
-            }
+            },
+            getModel: function () {
+                if ((navigator.userAgent.match(/(phone|baipad|pod|iPhone|iPod|ios|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+                    this.checkType = false
+                    console.log("iphone")
+                } else {
+                    this.checkType = true
+                    console.log("pc")
+                }
+            },
         },
         created: function () {
+            this.getModel()
             // 获取地址上的 id 参数
             let id = getQueryVariable('id');
             let contents = getContent();
@@ -112,6 +126,24 @@
 
                 }
             }
+        },
+        // 自适应屏幕
+        mounted: function () {
+            this.screenWidth = document.body.clientWidth
+            this.screenHeight = document.body.clientHeight
+            this.changeDiv = parseInt(Number(document.body.clientWidth) / 2)
+            window.onresize = () => {
+                return (() => {
+                    this.screenWidth = document.body.clientWidth
+                    this.screenHeight = document.body.clientHeight
+                    // 是否展示author列
+                    if (this.changeDiv >= this.screenWidth || this.screenWidth < 1000) {
+                        this.checkType = false
+                    } else {
+                        this.checkType = true
+                    }
+                })();
+            };
         }
     })
 </script>

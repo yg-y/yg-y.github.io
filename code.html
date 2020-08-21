@@ -47,7 +47,8 @@
         <div>
             <el-tooltip class="item" effect="dark" content="点我访问本项目的GitHub地址😊" placement="top">
                 <el-link class="link-menu" href="https://github.com/yg-y/yg-y.github.io">
-                    <img style="width: 1rem;padding-right: 0.3rem;color: rgba(184,184,184,0.35)" src="photo/github.svg"/>喵喵
+                    <img style="width: 1rem;padding-right: 0.3rem;color: rgba(184,184,184,0.35)"
+                         src="photo/github.svg"/>喵喵
                 </el-link>
             </el-tooltip>
         </div>
@@ -76,7 +77,7 @@
         data: function () {
             return {
                 tags: getTags(),
-                contents: getContent(),
+                contents: this.getSortList(),
                 authInfo: getAuthInfo(),
                 checkType: true,
                 screenWidth: '',
@@ -87,6 +88,9 @@
         methods: {
             clickContent: function (id) {
                 window.location.href = './content.html?id=' + id
+            },
+            getSortList() {
+                return getContent().reverse()
             },
             getModel: function () {
                 if ((navigator.userAgent.match(/(phone|baipad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {

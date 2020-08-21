@@ -155,8 +155,16 @@ function getContent() {
                 '\n' +
                 '如果初始容量大于负载系数分项的最大数量，则永远不会发生rehash操作。',
             fileUrl: './md/java/hashmap.md',
-            tag: 'java',
+            tag: 'JAVA',
             creatTime: '2020-07-23',
+            auth: '小羊'
+        }, {
+            id: 15,
+            name: '【重学MySQL计划】之MySQL基本架构及日志文件',
+            titleName: '连接池：这里面引入了一些线程池的概念(线程重用)，但是里面还包含了一些身份认证安全的一些措施。连接池的作用可以让客户端可以不用频繁对数据库进行连接-断开-连接的操作，同时对性能的提升影响巨大，官方有对加入连接池和没加连接池的SQL性能做对比。系统管理和控制工具：包括备份、还原、安全、集群等操作',
+            fileUrl: './md/mysql/mysql-learning-1.md',
+            tag: 'MySQL',
+            creatTime: '2020-08-21',
             auth: '小羊'
         },
     ]
