@@ -6,7 +6,7 @@
 
 本文会作为一个系列更新下去，包括但不仅限于以下几个方面：
 - [MySQL 基本架构及日志文件](https://yg-y.github.io/content.html?id=15)
-- [MySQL 数据库日志文件之 Undo Log 和 Redo Log]()
+- [MySQL 数据库日志文件之 Bin Log 、Undo Log 和 Redo Log]()
 - [MySQL 语言：DDL/DML/DQL/DCL]()
 - [MySQL 事务]()
 - [MySQL 两大常用储存引擎：MyISAM/InnoDB]()
@@ -60,8 +60,33 @@ select id, name from table where gender = 1
 ### redo log          (重做日志)
 redo log 是 InnoDB 存储引擎层的日志，又称重做日志文件，用于记录事务操作的变化，记录的是数据修改之后的值，不管事务是否提交都会记录下来。在实例和介质失败（media failure）时，redo log 文件就能派上用场，如数据库掉电，InnoDB 存储引擎会使用 redo log 恢复到掉电前的时刻，以此来保证数据的完整性。
 
+流程：
+操作 -> 日志缓存 -> 系统缓存 -> 磁盘
+
+
+使用命令查看详情:
+```
+mysql> show variables like '%innodb_log%';
++-----------------------------+----------+
+| Variable_name               | Value    |
++-----------------------------+----------+
+| innodb_log_buffer_size      | 16777216 |
+| innodb_log_checksums        | ON       |
+| innodb_log_compressed_pages | ON       |
+| innodb_log_file_size        | 50331648 |      //文件大小
+| innodb_log_files_in_group   | 2        |      //两个日志文件
+| innodb_log_group_home_dir   | ./       |
+| innodb_log_write_ahead_size | 8192     |
++-----------------------------+----------+
+7 rows in set (0.00 sec)
+```
+
 ### undo log          (回滚日志)
 undo用来回滚行记录到某个版本。undo log一般是逻辑日志，根据每行记录进行记录。
+
+作用：
+- 实现事务的原子性
+- 多版本并发控制(快照读)
 
 使用命令查看详情：
 ```
@@ -145,12 +170,10 @@ show binary logs;
 参数如下:
 - log_error: 用于指定错误日志文件
 - log_error_verbosity: 用于指定在日志文件中记录什么样的信息
-```
-可选参数：
-1 : errors only(错误信息)
-2 : errors and warnings(错误信息和告警信息)
-3 : errors,warnings,and notes(错误信息、告警信息和通知信息，默认值)
-```
+    - 可选参数：
+    - 1 : errors only(错误信息)
+    - 2 : errors and warnings(错误信息和告警信息)
+    - 3 : errors,warnings,and notes(错误信息、告警信息和通知信息，默认值)
 - log_timestamps: 日志中时间的格式，可选值为UTC或者SYSTEM
 
 使用命令查看详情：
@@ -171,10 +194,8 @@ mysql> show variables like '%log_error%';
 
 参数如下：
 - slow_query_log：
-```
-1 : 开启
-0 : 关闭
-```
+    - 1 : 开启
+    - 0 : 关闭
 - slow_query_log_file：用于指定日志文件名称，默认为hostname-slow.log
 
 使用命令查看详情：
