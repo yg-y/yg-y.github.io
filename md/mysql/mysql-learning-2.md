@@ -5,7 +5,7 @@
 
 本文会作为一个系列更新下去，包括但不仅限于以下几个方面：
 - [MySQL 基本架构及日志文件](https://yg-y.github.io/content.html?id=15)
-- [MySQL 数据库日志文件之 Bin Log 及如何做到删库不跑路](https://yg-y.github.io/content.html?id=16)
+- [MySQL 数据库日志文件之 Bin Log 数据恢复让你做到删库不跑路](https://yg-y.github.io/content.html?id=16)
 - [MySQL 语言：DDL/DML/DQL/DCL]()
 - [MySQL 事务]()
 - [MySQL 两大常用储存引擎：MyISAM/InnoDB]()
