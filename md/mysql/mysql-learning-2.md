@@ -15,7 +15,7 @@
 # Binary Log（bin log）
 二进制日志（Binary Log），是 MySQL 中非常重要的日志。主要用于记录数据库的变化情况，即 SQL 语句的 DDL 和 DML 语句，不包含数据记录查询操作。
 
-如果你一不小心手抖删除了某些数据或者再严重点，整个库都被你删了，那么不用担心，有了 bin log 让你无需删库跑路。前提，数据库得开启bin log
+如果你一不小心手抖删除了某些数据或者再严重点，整个库都被你删了，那么不用担心，有了 bin log 让你无需删库跑路。前提，数据库得开启 bin log
 
 默认情况下，bin log 功能是关闭的。可以通过以下命令查看二进制日志是否开启，命令如下：
 ```
@@ -184,7 +184,7 @@ find: '/proc/1/map_files': Permission denied
 // 切换路径
 cd /var/lib/mysql/
 
-// 执行一下命令 输入密码就可以完成恢复操作 下面有对此命令的解读
+// 执行以下命令 输入密码就可以完成恢复操作 下面有对此命令的解读
 mysqlbinlog --start-position=379 --stop-position=1537 mysqlbinlog.000001 | mysql -uroot -p;
 
 // 连接数据库，查看恢复情况
@@ -240,12 +240,11 @@ mysqlbinlog --start-datetime="2020-08-24 17:35:29" --stop-datetime="2020-08-24 1
 
 ```
 
-若想通过时间点恢复，则需要把 bin log 日志进行转化，因为二进制日志是无法直接查看，转化命令如下：
+若想通过时间点恢复，通过如下命令查看 binlog 文件，命令如下：
 
 ```
-
-// 将 mysqlbinlog.000001 转为 binlog.log
-mysqlbinlog --no-defaults -v -v --base64-output=decode-row   ./binlog.log
+// 输出我们看的懂的日志文件 
+mysqlbinlog mysqlbinlog.000001
 
 // 截取部分输出内容
 #200824 17:35:29 server id 121  end_log_pos 716 CRC32 0xe8933d54 	Query	thread_id=20	exec_time=0	error_code=0
