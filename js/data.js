@@ -166,6 +166,20 @@ function getContent() {
             tag: 'MySQL',
             creatTime: '2020-08-21',
             auth: '小羊'
+        }, {
+            id: 16,
+            name: '【重学M有SQL计划】数据库日志文件之 Bin Log 及如何做到删库不跑路',
+            titleName: 'Binary Log（bin log）\n' +
+                '\n' +
+                '二进制日志（Binary Log），是 MySQL 中非常重要的日志。主要用于记录数据库的变化情况，即 SQL 语句的 DDL 和 DML 语句，不包含数据记录查询操作。\n' +
+                '\n' +
+                '如果你一不小心手抖删除了某些数据或者再严重点，整个库都被你删了，那么不用担心，有了 bin log 让你无需删库跑路。前提，数据库得开启bin log\n' +
+                '\n' +
+                '默认情况下，bin log 功能是关闭的。可以通过以下命令查看二进制日志是否开启，命令如下：',
+            fileUrl: './md/mysql/mysql-learning-2.md',
+            tag: 'MySQL',
+            creatTime: '2020-08-24',
+            auth: '小羊'
         },
     ]
     return data
