@@ -76,7 +76,6 @@
         el: '#app',
         data: function () {
             return {
-                tags: getTags(),
                 contents: this.getSortList(),
                 authInfo: getAuthInfo(),
                 checkType: true,
@@ -87,7 +86,7 @@
         },
         methods: {
             clickContent: function (id) {
-                window.location.href = './content.html?id=' + id
+                window.location.href = './content.html?type=1&id=' + id
             },
             getSortList() {
                 return getContent().reverse()

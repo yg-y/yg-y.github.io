@@ -61,6 +61,7 @@
 <!-- md view -->
 <script type="text/javascript" src="./js/showdown.min.js"></script>
 <script src="./js/data.js"></script>
+<script src="./js/data-photo.js"></script>
 <script src="./js/util.js"></script>
 <script>
     new Vue({
@@ -100,8 +101,15 @@
         created: function () {
             this.getModel()
             // 获取地址上的 id 参数
-            let id = getQueryVariable('id');
-            let contents = getContent();
+            let id = getQueryVariable('id')
+            let type = getQueryVariable('type')
+            let contents = []
+
+            if (Number(type) === 1) {
+                contents = getContent()
+            } else {
+                contents = getContentPhoto()
+            }
             // 匹配文章
             for (let item of contents) {
                 if (item.id === Number(id)) {

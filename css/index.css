@@ -108,7 +108,7 @@ body {
 }
 
 .center-content {
-    /*width: auto;*/
+    width: 100%;
     background-color: #f4f6f7;
     padding: 1.5rem 5% 5% 5%;
 }

@@ -1,32 +1,3 @@
-function getTags() {
-    let data = [
-        {
-            id: 1,
-            name: '后端'
-        },
-        {
-            id: 2,
-            name: '前端'
-        },
-        {
-            id: 3,
-            name: '数据库'
-        },
-        {
-            id: 3,
-            name: '数据库'
-        },
-        {
-            id: 3,
-            name: '数据库'
-        },
-        {
-            id: 3,
-            name: '数据库'
-        }
-    ]
-    return data;
-}
 
 function getContent() {
     let data = [
@@ -132,14 +103,6 @@ function getContent() {
             fileUrl: './md/work/1658.md',
             tag: '工作',
             creatTime: '2020-07-10',
-            auth: '小羊'
-        }, {
-            id: 13,
-            name: '桂林两天两夜摄影行程LOG',
-            titleName: '桂林两天两夜摄影行程LOG',
-            fileUrl: './md/photo/guilin-log.md',
-            tag: '摄影',
-            creatTime: '2020-07-20',
             auth: '小羊'
         }, {
             id: 14,
