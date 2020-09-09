@@ -19,6 +19,14 @@ function getContentPhoto() {
             tag: '旅游规划',
             creatTime: '2020-09-1',
             auth: '小羊'
+        }, {
+            id: 3,
+            name: '【多图预警】深圳摄影作品集',
+            titleName: '陆陆续续的更新一些在深圳的风光摄影作品，多图预警',
+            fileUrl: './md/photo/深圳摄影作品.md',
+            tag: '摄影',
+            creatTime: '2020-09-9',
+            auth: '小羊'
         },
     ]
     return data

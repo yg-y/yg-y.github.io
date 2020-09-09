@@ -1,106 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>md转换为html</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>点击图片显示大图</title>
     <style>
-        .masonry {
-            -moz-column-count: 3; /* Firefox */
-            -webkit-column-count: 3; /* Safari 和 Chrome */
-            column-count: 3;
-            -moz-column-gap: 2em;
-            -webkit-column-gap: 2em;
-            column-gap: 2em;
-            width: 80%;
-            margin: 2em auto;
+        img{padding:5px;width:100px;height:auto;cursor: pointer;}
+        #outer{
+            width:100%;
+            height:100%;
         }
-
-        .item {
-            padding: 2em;
-            margin-bottom: 2em;
-            -moz-page-break-inside: avoid;
-            -webkit-column-break-inside: avoid;
-            break-inside: avoid;
-            background: #f60;
+        .overlay{
+            background-color:#000;
+            opacity: .7;
+            filter:alpha(opacity=70);
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            z-index: 10;
         }
-
-        @media screen and (max-width: 800px) {
-            .masonry {
-                column-count: 2;
-            // two columns on larger phones
-            }
-        }
-
-        @media screen and (max-width: 500px) {
-            .masonry {
-                column-count: 1;
-            // two columns on larger phones
-            }
+        .overlayimg{
+            position: absolute;
+            z-index: 11;
+            left:24%;
+            top:55px;
+            width:auto;
+            cursor: pointer;
         }
     </style>
+    <script>
+        function expandPhoto(){
+            var overlay = document.createElement("div"); //创建div
+            overlay.setAttribute("id","overlay");  //给div添加id
+            overlay.setAttribute("class","overlay");  //给div添加class
+            document.body.appendChild(overlay);  //向页面中显示此div
+
+            var img = document.createElement("img");
+            img.setAttribute("class","overlayimg");
+            img.src = this.getAttribute("src");
+            document.getElementById("overlay").appendChild(img);
+
+            img.onclick = restore;
+        }
+        function restore(){
+            document.body.removeChild(document.getElementById("overlay"));
+            document.body.removeChild(document.getElementById("img"));
+        }
+        window.onload = function(){
+            var imgs = document.getElementsByTagName("img");//找到所有img
+            imgs[0].focus();
+            for(var i = 0;i<imgs.length;i++){
+                imgs[i].onclick = expandPhoto;  //绑定点击事件，执行方法
+                imgs[i].onkeydown = expandPhoto;
+                console.log(imgs[i].src);
+            }
+
+        }
+    </script>
 </head>
-
 <body>
-<div class="masonry">
-    <div class="item">
-        <div class="item_content content-lar"> 1
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-sma"> 2
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-mid"> 3
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-sma"> 4
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-mid"> 5
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-lar"> 6
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-sma"> 7
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-lar"> 8
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-lar"> 9
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-sma"> 10
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-mid"> 11
-        </div>
-    </div>
-    <div class="item">
-        <div class="item_content content-mid"> 12
-        </div>
-    </div>
-    <!-- more items -->
+<div id="outer">
+    <p>点击图片</p>
+    <img src="http://ww1.sinaimg.cn/large/a760927bgy1gik86vvipzj20se1664qr.jpg" title="点击图片放大缩小" />
+    <img src="http://ww1.sinaimg.cn/large/a760927bgy1gik87glrjfj21f6164x6p.jpg" title="点击图片放大缩小" />
 </div>
-<script>
-    function mdSwitch() {
-        var mdValue = document.getElementById("md-area").value;
-        var converter = new showdown.Converter();
-        var html = converter.makeHtml(mdValue);
-        document.getElementById("show-area").innerHTML = html;
-    }
-</script>
 </body>
-
 </html>

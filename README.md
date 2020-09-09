@@ -7,6 +7,10 @@
 
 > 手机版预览效果/H5
 ![yg-y-h5.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggskgtqx3mj21gi0tjthp.jpg)
+#### 2020-09-09 更新:
+```
+1. 新增文章内容图片可点击放大观看
+```
 
 #### 2020-08-24 更新:
 ```

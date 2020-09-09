@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="no-referrer"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>文章</title>
@@ -14,6 +14,28 @@
     <style>
         [v-cloak] {
             display: none !important;
+        }
+
+        .overlay {
+            background-color: #00000075;
+            filter: alpha(opacity=70);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+        }
+
+        .overlayimg {
+            position: absolute;
+            z-index: 11;
+            /*left: 40%;*/
+            top: 1%;
+            height: 90%;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -69,7 +91,6 @@
         el: '#app',
         data: function () {
             return {
-                tags: getTags(),
                 checkType: true,
                 content: {},
                 screenWidth: '',
@@ -98,6 +119,31 @@
                     console.log("pc")
                 }
             },
+            initImagesClick: function (then) {
+                let images = document.getElementsByTagName("img");//找到所有img
+                for (let i = 0; i < images.length; i++) {
+                    images[i].onclick = function () {
+                        var overlay = document.createElement("div"); //创建div
+                        overlay.setAttribute("id", "overlay");  //给div添加id
+                        overlay.setAttribute("class", "overlay");  //给div添加class
+                        document.body.appendChild(overlay);  //向页面中显示此div
+
+                        var img = document.createElement("img");
+                        img.setAttribute("class", "overlayimg");
+                        img.src = this.getAttribute("src");
+                        document.getElementById("overlay").appendChild(img);
+
+                        img.onclick = function () {
+                            document.body.removeChild(document.getElementById("overlay"));
+                            document.body.removeChild(document.getElementById("img"));
+                        };
+                    };  //绑定点击事件，执行方法
+                    images[i].onkeydown = function () {
+                        document.body.removeChild(document.getElementById("overlay"));
+                        document.body.removeChild(document.getElementById("img"));
+                    };
+                }
+            }
         },
         created: function () {
             this.getModel()
@@ -126,13 +172,14 @@
             let request = new XMLHttpRequest();
             request.open("get", url);
             request.send(null);
+            let then = this
             request.onload = function () {
                 // 回写数据到 markdown 组件中预览
                 if (request.status === 200) {
                     let converter = new showdown.Converter();
                     let html = converter.makeHtml(request.responseText);
                     document.getElementById("result").innerHTML = html;
-
+                    then.initImagesClick(then)
                 }
             }
         },
