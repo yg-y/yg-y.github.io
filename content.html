@@ -29,11 +29,21 @@
             justify-content: center;
         }
 
-        .overlayimg {
+        .overlayimg_pc {
             position: absolute;
             z-index: 11;
             /*left: 40%;*/
-            top: 1%;
+            top: 10%;
+            height: 90%;
+            cursor: pointer;
+        }
+
+        .overlayimg_phone {
+            position: absolute;
+            z-index: 11;
+            /*left: 40%;*/
+            top: 5%;
+            width: 90%;
             /*height: 90%;*/
             cursor: pointer;
         }
@@ -129,7 +139,13 @@
                         document.body.appendChild(overlay);  //向页面中显示此div
 
                         var img = document.createElement("img");
-                        img.setAttribute("class", "overlayimg");
+
+                        console.log(then)
+                        if (then.checkType) {
+                            img.setAttribute("class", "overlayimg_pc");
+                        } else {
+                            img.setAttribute("class", "overlayimg_phone");
+                        }
                         img.src = this.getAttribute("src");
                         document.getElementById("overlay").appendChild(img);
 
