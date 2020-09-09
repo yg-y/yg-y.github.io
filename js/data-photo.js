@@ -25,7 +25,7 @@ function getContentPhoto() {
             titleName: '陆陆续续的更新一些在深圳的风光摄影作品，多图预警',
             fileUrl: './md/photo/深圳摄影作品.md',
             tag: '摄影',
-            creatTime: '2020-09-9',
+            creatTime: '2020-09-09',
             auth: '小羊'
         },
     ]

@@ -149,7 +149,7 @@
                         img.src = this.getAttribute("src");
                         document.getElementById("overlay").appendChild(img);
 
-                        img.onclick = function () {
+                        overlay.onclick = function () {
                             document.body.removeChild(document.getElementById("overlay"));
                             document.body.removeChild(document.getElementById("img"));
                         };
