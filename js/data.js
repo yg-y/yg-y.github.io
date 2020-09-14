@@ -74,6 +74,14 @@ function getContent() {
             creatTime: '2020-07-02',
             auth: '小羊'
         }, {
+            id: 9100,
+            name: '简历',
+            titleName: '简历',
+            fileUrl: './简历.md',
+            tag: '简历',
+            creatTime: '2020-09-14',
+            auth: '小羊'
+        }, {
             id: 10,
             name: '深入理解JAVA虚拟机阅读输出',
             titleName: 'java虚拟机在执行java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。\n',
