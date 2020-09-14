@@ -77,7 +77,7 @@ function getContent() {
             id: 9100,
             name: '简历',
             titleName: '简历',
-            fileUrl: './简历.md',
+            fileUrl: './md/简历.md',
             tag: '简历',
             creatTime: '2020-09-14',
             auth: '小羊'
