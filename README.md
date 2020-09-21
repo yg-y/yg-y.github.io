@@ -1,6 +1,6 @@
 # github pages 个人博客模板
 
-[体验地址(点我访问)](https://yg-y.github.io) 🚀🚀🚀
+[体验地址(点我访问)](http://www.blogyg.cn/) 🚀🚀🚀
 
 > PC版预览效果
 ![yg-y.jpg](http://ww1.sinaimg.cn/large/a760927bgy1ggskeaxlz2j214b1stk1r.jpg)
