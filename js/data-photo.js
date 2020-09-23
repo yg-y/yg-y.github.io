@@ -27,6 +27,15 @@ function getContentPhoto() {
             tag: '摄影',
             creatTime: '2020-09-09',
             auth: '小羊'
+        },{
+            id: 4,
+            name: '【多图预警】【转载】instagram _tyedied 作品赏析',
+            titleName: '无意间在 instagram 上看到一个超现实的摄影作者，深深被作者的想法折服了\n' +
+                '简洁的构图，纯粹的色彩，以及毫无违和的后期点缀',
+            fileUrl: './md/photo/ins-tyedied.md',
+            tag: '摄影',
+            creatTime: '2020-09-23',
+            auth: '小羊'
         },
     ]
     return data
