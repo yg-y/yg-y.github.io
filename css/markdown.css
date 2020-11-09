@@ -129,6 +129,10 @@ p pre code, li pre code {
     border: none
 }
 
+p img{
+    width: 100%;
+}
+
 img {
     max-width: 100%;
     -webkit-border-radius: 0.3em;
