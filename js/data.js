@@ -3,7 +3,7 @@ function getContent() {
     let data = [
         {
             id: 1,
-            name: 'SkyWalking APM 搭建笔记',
+            name: 'SkyWalking APM 基于 Docker 的搭建方案',
             titleName: 'Skywalking 是一个可观测性分析平台和应用性能管理系统。提供分布式跟踪，服务网格遥测分析，度量聚合和可视化一体化解决方案。',
             fileUrl: './md/skywalking.md',
             tag: '监控',
