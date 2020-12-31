@@ -152,7 +152,7 @@ function getContent() {
             auth: '小羊'
         }, {
             id: 17,
-            name: '基于 ServiceComb-Pack 的分布式事务实战',
+            name: '【分布式系列】基于 ServiceComb-Pack 的分布式事务实战',
             titleName: '什么是事务 简单讲事务是数据库管理系统执行过程中的一个逻辑单元，它能保证要么一组数据库操作全部执行成功，要么全部失败，而做到这些的原理就是事务的ACID四大特性。',
             fileUrl: './md/java/ServiceComb-Pack.md',
             tag: 'MySQL',

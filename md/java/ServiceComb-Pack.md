@@ -1,4 +1,4 @@
-# 基于 ServiceComb-Pack 的分布式事务实战
+# 【分布式系列】基于 ServiceComb-Pack 的分布式事务实战
 
 ## 什么是事务
 
