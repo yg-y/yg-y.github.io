@@ -1,4 +1,3 @@
-
 function getContentPhoto() {
     let data = [
         {
@@ -27,7 +26,7 @@ function getContentPhoto() {
             tag: '摄影',
             creatTime: '2020-09-09',
             auth: '小羊'
-        },{
+        }, {
             id: 4,
             name: '【多图预警】【转载】instagram _tyedied 作品赏析',
             titleName: '无意间在 instagram 上看到一个超现实的摄影作者，深深被作者的想法折服了\n' +
@@ -36,7 +35,7 @@ function getContentPhoto() {
             tag: '摄影',
             creatTime: '2020-09-23',
             auth: '小羊'
-        },{
+        }, {
             id: 5,
             name: '【永诺 YN14mm F2.8】始于颜值忠于才华陷于品质',
             titleName: '这只镜头给我的第一印象是扎实的手感和不错的颜值。金属镜身，体积适中，方便携带。' +
@@ -45,6 +44,14 @@ function getContentPhoto() {
             fileUrl: './md/photo/永诺14MM.md',
             tag: '摄影',
             creatTime: '2020-11-09',
+            auth: '小羊'
+        }, {
+            id: 6,
+            name: '【摄影作品分享】川西 · 一个让人魂牵梦萦的地方',
+            titleName: '2020年10月，一次规划了好几个月的旅行终于上路了，从爱上风光摄影的那一刻，我就一直想去川西看一看，体验下不同于都市的魅力。',
+            fileUrl: './md/photo/川西风光摄影作品一览.md',
+            tag: '摄影',
+            creatTime: '2021-03-09',
             auth: '小羊'
         },
     ]

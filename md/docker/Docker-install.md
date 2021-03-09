@@ -117,6 +117,20 @@ For more examples and ideas, visit:
 
 ```
 
+- 若想直接一行命令安装 docker 和 docker-compose ，则直接复制以下命令
+```shell
+yum install -y yum-utils device-mapper-persistent-data lvm2 \
+&& yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo \
+&& yum install  -y docker-ce docker-ce-cli containerd.io \
+&& systemctl start docker \
+&& yum -y install epel-release \
+&& yum -y install python-pip \
+&& pip install --upgrade pip \
+&& pip install docker-compose
+```
+
 ### 常用 Docker 命令
 
 [Docker 常用命令大全](https://www.runoob.com/docker/docker-command-manual.html)
