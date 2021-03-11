@@ -174,6 +174,14 @@ function getContent() {
             tag: 'Docker',
             creatTime: '2021-03-09',
             auth: '小羊'
+        },{
+            id: 20,
+            name: '【重学MySQL计划】数据库日志文件之 Undo Log 让你了解 MySQL 事务',
+            titleName: 'Compose可译为组合物。[11]Compose 是用于定义和运行 多个容器Docker应用程序 的工具。通过Compose，你可以使用YAML文件来配置应用程序需要的所有服务，然后通过使用一个命令，就可以创建并启动所有服务。[12][13]Compose对应的命令为docker-compose',
+            fileUrl: './md/mysql/mysql-undolog.md',
+            tag: 'MySQL',
+            creatTime: '2021-03-10',
+            auth: '小羊'
         },
     ]
     return data
