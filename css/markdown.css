@@ -73,14 +73,17 @@ th, td {
 }
 
 blockquote {
-    font-style: italic;
+    /*font-style: italic;*/
+    color: rgba(23, 23, 23, 0.92);
+    background-color: #f5f5f5;
     font-size: 1.1em;
     line-height: 1.5em;
-    padding-left: 1em;
-    border-left: 4px solid #D5D5D5;
+    padding: 0.5rem 0.5rem 0.5rem 1em;
+    border-left: 4px solid #9c80238c;
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 1.5rem;
+    border-radius: 0.4rem
 }
 
 a {

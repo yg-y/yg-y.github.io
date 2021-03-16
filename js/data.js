@@ -182,6 +182,14 @@ function getContent() {
             tag: 'MySQL',
             creatTime: '2021-03-10',
             auth: '小羊'
+        },{
+            id: 21,
+            name: '基于 HotSpot 的 JAVA 虚拟机参数概览',
+            titleName: '记录在 JVM 启动参数设置时需要调整的一些参数，使其符合各类服务的运行环境，此文章以 JDK1.8 HotSpot 虚拟机为例 展示对应的虚拟器参数，不同版本的 JDK 及不同版本的虚拟器，参数或多或少会有区别，请以官方文档为准。',
+            fileUrl: './md/jvm/jvm-param.md',
+            tag: 'JVM',
+            creatTime: '2021-03-16',
+            auth: '小羊'
         },
     ]
     return data
