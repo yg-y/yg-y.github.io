@@ -10,7 +10,7 @@
 为了解决这个问题，我们可以引入 HttpServletRequestWrapper 这个对象。这个类封装了 HttpServletRequest 的行为， 我们可以继承这个类，从而使用一个新类模拟原始 HttpServletRequest
 的行为。然后使用过滤器（filter）将原始的 HttpServletRequest 对象替换为 HttpServletRequestWrapper 对象。
 
-- 业务拦截器定义及重载后的 HttpServletRequest 包装类使用
+- 业务拦截器定义及重写后的 HttpServletRequest 包装类使用
 
 ```java
 
@@ -41,7 +41,7 @@ public class SignatureInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        // 创建重载后的 HttpServletRequest
+        // 创建重写后的 HttpServletRequest
         RequestReaderHttpServletRequestWrapper wrapper = new RequestReaderHttpServletRequestWrapper(request);
         // 获取 body 参数
         String bodyParams = wrapper.inputStream2String(wrapper.getInputStream());
