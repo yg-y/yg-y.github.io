@@ -203,16 +203,24 @@ function getContent() {
             name: 'Spring 整合 Motan RPC 框架，内附源码',
             titleName: 'Motan是一套基于java开发的RPC框架，除了常规的点对点调用外，Motan还提供服务治理功能，包括服务节点的自动发现、摘除、高可用和负载均衡等。Motan具有良好的扩展性，主要模块都提供了多种不同的实现，例如支持多种注册中心，支持多种rpc协议等。',
             fileUrl: './md/java/java-motan-example.md',
-            tag: 'JAVA',
+            tag: 'Motan',
             creatTime: '2021-04-15',
             auth: '小羊'
         }, {
             id: 24,
             name: 'SpringBoot 整合 ElasticSearch，内附源码',
             titleName: 'Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。 作为 Elastic Stack 的核心，它集中存储您的数据，帮助您发现意料之中以及意料之外的情况。',
-            fileUrl: './md/java/java-motan-example.md',
-            tag: 'JAVA',
+            fileUrl: './md/java/springboot-es-example.md',
+            tag: 'ElasticSearch',
             creatTime: '2021-04-20',
+            auth: '小羊'
+        }, {
+            id: 25,
+            name: 'XXL-JOB 定时任务搭建及入门教程，内附源码',
+            titleName: 'XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅速、学习简单、轻量级、易扩展。现已开放源代码并接入多家公司线上产品线，开箱即用。',
+            fileUrl: './md/java/springboot-xxl-job-example.md',
+            tag: 'XXL-JOB',
+            creatTime: '2021-04-21',
             auth: '小羊'
         },
     ]
