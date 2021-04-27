@@ -53,6 +53,14 @@ function getContentPhoto() {
             tag: '摄影',
             creatTime: '2021-03-09',
             auth: '小羊'
+        }, {
+            id: 7,
+            name: '大红花五一【银川-兰州】之行路线图',
+            titleName: '大红花五一【银川-兰州】之行路线图',
+            fileUrl: './md/photo/bigRedFlower.md',
+            tag: '摄影',
+            creatTime: '2021-04-27',
+            auth: '小羊'
         },
     ]
     return data
