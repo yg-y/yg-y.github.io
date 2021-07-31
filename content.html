@@ -92,6 +92,12 @@
 <script src="./js/data.js"></script>
 <script src="./js/data-photo.js"></script>
 <script src="./js/util.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/go.min.js"></script>
+
 <script>
     new Vue({
         el: '#app',
@@ -215,7 +221,12 @@
                     document.getElementById("result").innerHTML = html;
                     then.initImagesClick(then)
                 }
+
+                // 代码高亮
+                hljs.highlightAll();
             }
+
+
         },
         // 自适应屏幕
         mounted: function () {
