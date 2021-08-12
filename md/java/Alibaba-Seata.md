@@ -47,7 +47,9 @@
 
 ## 微服务的分布式下事务问题
 
-- 微服务状态下，一个单体应用被拆分成多个服务，如商城系统被拆分成商品、订单、库存等多个服务，每个服务对应的数据库不同，每个服务的事务只能保证本地事务的ACID。如果订单服务下单成功了，库存服务扣量失败，而每个服务只会管理自己的事务，库存回滚不会导致订单回滚，从而导致数据不一致等问题。
+-
+
+微服务状态下，一个单体应用被拆分成多个服务，如商城系统被拆分成商品、订单、库存等多个服务，每个服务对应的数据库不同，每个服务的事务只能保证本地事务的ACID。如果订单服务下单成功了，库存服务扣量失败，而每个服务只会管理自己的事务，库存回滚不会导致订单回滚，从而导致数据不一致等问题。
 
 ## 分布式事务有哪些
 
@@ -60,7 +62,7 @@
       参与者将操作成败通知协调者，再由协调者根据所有参与者的反馈情报决定各参与者是否要提交操作还是中止操作。
     - 说人话就是在两个或两个以上的服务中间出现一个协调者，服务称做参与者，协调者询问参与者是否可以进行事务提交，双方都回答是就可以提交，如果有一方回答否则全部回退
 
-- ![2PC 图解.png](http://ww1.sinaimg.cn/large/00342Bl1gy1grc77ynhzkj60i60hnq5k02.jpg)
+- ![WeChat03749bbe2c0abaaefd869b2a2653f98e.png](http://ww1.sinaimg.cn/large/00342Bl1gy1gte6dtaj3rj60rs0juh1102.jpg)
 
 #### 两个阶段
 
@@ -72,12 +74,15 @@
 #### 二阶段的问题
 
 - 性能问题
+
 ```text
 无论是在第一阶段的过程中,还是在第二阶段,所有的参与者资源和协调者资源都是被锁住的,只有当所有节点准备完毕,
 事务协调者 才会通知进行全局提交, 参与者 进行本地事务提交后才会释放资源。
 这样的过程会比较漫长，对性能影响比较大。
 ```
+
 - 单点问题
+
 ```text
 由于协调者的重要性，一旦 协调者 发生故障。参与者 会一直阻塞下去。
 尤其在第二阶段，协调者 发生故障，那么所有的 参与者 还都处于锁定事务资源的状态中，而无法继续完成事务操作。
@@ -88,6 +93,8 @@
 
 - 3PC: 中文叫三阶段提交。2PC的出现是为了解决 2PC 的一些问题，相比于 2PC 它在参与者中也引入了超时机制，并且新增了一个阶段使得参与者可以利用这一个阶段统一各自的状态。
     - 3PC 包含了三个阶段，分别是准备阶段、预提交阶段和提交阶段，对应的英文就是：CanCommit、PreCommit 和 DoCommit
+
+![3pc.jpg](http://ww1.sinaimg.cn/large/a760927bgy1gtd6bprkm8j207m0o1mya.jpg)
 
 ### TCC
 
@@ -109,4 +116,383 @@
 
 - 按照 install guide 步骤安装即可，也可直接 git clone 下来，本地进行编译启动，启动服务为 `seata-serve`。
 - github地址：https://github.com/seata/seata.git
-- https://blog.csdn.net/calonmo/article/details/106630754
+
+# Alibaba Seata 分布式事务示例
+
+> spring cloud + nacos + feign + seata demo
+>
+
+# 版本依赖关系
+
+https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
+
+# jar  version
+
+```
+spring-cloud-alibaba-dependencies
+2.2.6.RELEASE
+
+spring-cloud-dependencies
+Hoxton.SR9
+
+nacos
+1.3.0
+
+seata
+1.3.0
+```
+
+# 第一步
+
+## 下载 seata-server
+
+> 下载 jar 包对应服务端版本
+>
+> 下载链接：https://github.com/seata/seata/releases
+
+### docker compose 方式
+
+> http://seata.io/zh-cn/docs/ops/deploy-by-docker.html
+
+```yaml
+version: "3"
+services:
+  seata-server:
+    image: seataio/seata-server
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file
+```
+
+# 第二步
+
+## 配置 seata-server config
+
+- registry.conf
+
+```text
+registry {
+  # 选择自己的注册方式，这里选的是 nacos 注册中心
+  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa
+  type = "nacos"
+
+  nacos {
+    application = "seata-server"
+    serverAddr = "nacos.blogyg.cn:9999"
+    group = "DEFAULT_GROUP"
+    namespace = ""
+    cluster = "DEFAULT"
+    username = "nacos"
+    password = "nacos"
+  }
+  file {
+      name = "file.conf"
+  }
+}
+
+config {
+  # 选择自己的配置方式，这里选的是 nacos 配置中心
+  # file、nacos 、apollo、zk、consul、etcd3
+  type = "nacos"
+
+  file {
+    name = "file.conf"
+  }
+
+  nacos {
+    serverAddr = "nacos.blogyg.cn:9999"
+    group = "DEFAULT_GROUP"
+    namespace = ""
+    username = "nacos"
+    password = "nacos"
+    cluster = "DEFAULT"
+  }
+}
+
+```
+
+### 将配置文件配置到 nacos 配置中心
+
+> 根据实际情况删除配置，以及更改配置文件中的配置值
+
+- config.txt
+
+```text
+service.vgroupMapping.my_test_tx_group=default
+service.enableDegrade=false
+service.disableGlobalTransaction=false
+store.mode=db
+store.db.datasource=druid
+store.db.dbType=mysql
+store.db.driverClassName=com.mysql.jdbc.Driver
+store.db.url=jdbc:mysql://www.blogyg.cn:3306/seata?useUnicode=true&rewriteBatchedStatements=true
+store.db.user=root
+store.db.password=123456
+store.db.minConn=5
+store.db.maxConn=30
+store.db.globalTable=global_table
+store.db.branchTable=branch_table
+store.db.queryLimit=100
+store.db.lockTable=lock_table
+store.db.maxWait=5000
+```
+
+### 执行 shell 脚本，将配置信息同步至 nacos
+
+> 更改脚本中信息为你的 nacos 信息
+
+- seata-nacos.sh
+
+```shell
+#!/bin/sh
+# Copyright 1999-2019 Seata.io Group.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at、
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+while getopts ":h:p:g:t:u:w:" opt
+do
+  case $opt in
+  h)
+    host=$OPTARG
+    ;;
+  p)
+    port=$OPTARG
+    ;;
+  g)
+    group=$OPTARG
+    ;;
+  t)
+    tenant=$OPTARG
+    ;;
+  u)
+    username=$OPTARG
+    ;;
+  w)
+    password=$OPTARG
+    ;;
+  ?)
+    echo " USAGE OPTION: $0 [-h host] [-p port] [-g group] [-t tenant] [-u username] [-w password] "
+    exit 1
+    ;;
+  esac
+done
+
+if [ -z ${host} ]; then
+    host=nacos.blogyg.cn
+fi
+if [ -z ${port} ]; then
+    port=9999
+fi
+if [ -z ${group} ]; then
+    group="DEFAULT_GROUP"
+fi
+if [ -z ${tenant} ]; then
+    tenant=""
+fi
+if [ -z ${username} ]; then
+    username="nacos"
+fi
+if [ -z ${password} ]; then
+    password="nacos"
+fi
+
+nacosAddr=$host:$port
+contentType="content-type:application/json;charset=UTF-8"
+
+echo "set nacosAddr=$nacosAddr"
+echo "set group=$group"
+
+urlencode() {
+  length="${#1}"
+  i=0
+  while [ $length -gt $i ]; do
+    char="${1:$i:1}"
+    case $char in
+    [a-zA-Z0-9.~_-]) printf $char ;;
+    *) printf '%%%02X' "'$char" ;;
+    esac
+    i=`expr $i + 1`
+  done
+}
+
+failCount=0
+tempLog=$(mktemp -u)
+function addConfig() {
+  dataId=`urlencode $1`
+  content=`urlencode $2`
+  curl -X POST -H "${contentType}" "http://$nacosAddr/nacos/v1/cs/configs?dataId=$dataId&group=$group&content=$content&tenant=$tenant&username=$username&password=$password" >"${tempLog}" 2>/dev/null
+  if [ -z $(cat "${tempLog}") ]; then
+    echo " Please check the cluster status. "
+    exit 1
+  fi
+  if [ "$(cat "${tempLog}")" == "true" ]; then
+    echo "Set $1=$2 successfully "
+  else
+    echo "Set $1=$2 failure "
+    failCount=`expr $failCount + 1`
+  fi
+}
+
+count=0
+for line in $(cat $(dirname "$PWD")/config.txt | sed s/[[:space:]]//g); do
+    count=`expr $count + 1`
+	key=${line%%=*}
+    value=${line#*=}
+	addConfig "${key}" "${value}"
+done
+
+echo "========================================================================="
+echo " Complete initialization parameters,  total-count:$count ,  failure-count:$failCount "
+echo "========================================================================="
+
+if [ ${failCount} -eq 0 ]; then
+	echo " Init nacos config finished, please start seata-server. "
+else
+	echo " init nacos config fail. "
+fi
+```
+# 第三步
+> 在项目启动配置中添加 seata 配置
+## 客户端配置 client config
+
+```yaml
+seata:
+  enabled: true
+  #  此处一定要和 服务端 配置一致
+  tx-service-group: my_test_tx_group
+  application-id: seata-commodity
+  config:
+    type: nacos
+    nacos:
+      namespace: ""
+      server-addr: "nacos.blogyg.cn:9999"
+      group: "DEFAULT_GROUP"
+      username: "nacos"
+      password: "nacos"
+      cluster: DEFAULT
+  registry:
+    type: nacos
+    nacos:
+      application: "seata-server"
+      server-addr: "nacos.blogyg.cn:9999"
+      group: "DEFAULT_GROUP"
+      namespace: ""
+      username: "nacos"
+      password: "nacos"
+      cluster: DEFAULT
+```
+
+- 数据源代理
+
+> 此处展示使用 mybatis plus 方式交给 seata 代理，其他 orm 框架同理，只需要将 dataSourceProxy 交给 DataSourceTransactionManager 管理即可
+
+```java
+package com.young.seata.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import io.seata.rm.datasource.DataSourceProxy;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
+import javax.sql.DataSource;
+
+/**
+ * alibaba seata 配置类
+ */
+@Slf4j
+@Configuration
+public class SeataAutoConfig {
+
+    @Value("${spring.application.name}")
+    String applicationName;
+
+    /**
+     * autowired datasource config
+     */
+    @Autowired
+    private DataSourceProperties dataSourceProperties;
+
+    /**
+     * init durid datasource
+     *
+     * @Return: druidDataSource  datasource instance
+     */
+    @Primary
+    @Bean("druidDataSource")
+    public DruidDataSource druidDataSource() {
+        DruidDataSource druidDataSource = new DruidDataSource();
+        druidDataSource.setUrl(dataSourceProperties.getUrl());
+        druidDataSource.setUsername(dataSourceProperties.getUsername());
+        druidDataSource.setPassword(dataSourceProperties.getPassword());
+        druidDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+        druidDataSource.setInitialSize(0);
+        druidDataSource.setMaxActive(180);
+        druidDataSource.setMaxWait(60000);
+        druidDataSource.setMinIdle(0);
+        druidDataSource.setValidationQuery("Select 1 from DUAL");
+        druidDataSource.setTestOnBorrow(false);
+        druidDataSource.setTestOnReturn(false);
+        druidDataSource.setTestWhileIdle(true);
+        druidDataSource.setTimeBetweenEvictionRunsMillis(60000);
+        druidDataSource.setMinEvictableIdleTimeMillis(25200000);
+        druidDataSource.setRemoveAbandoned(true);
+        druidDataSource.setRemoveAbandonedTimeout(1800);
+        druidDataSource.setLogAbandoned(true);
+        return druidDataSource;
+    }
+
+    /**
+     * init datasource proxy
+     *
+     * @Param: druidDataSource  datasource bean instance
+     * @Return: DataSourceProxy  datasource proxy
+     */
+    @Bean
+    public DataSourceProxy dataSourceProxy(DruidDataSource druidDataSource) {
+        return new DataSourceProxy(druidDataSource);
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSourceProxy dataSourceProxy) {
+        return new DataSourceTransactionManager(dataSourceProxy);
+    }
+
+    /**
+     * mybatis plus 需要加上此配置，否则无法使用 mybatis plus
+     *
+     * @param dataSource
+     * @return
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "mybatis")
+    public MybatisSqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("druidDataSource") DataSource dataSource) {
+        // 这里用 MybatisSqlSessionFactoryBean 代替了 SqlSessionFactoryBean，否则 MyBatisPlus 不会生效
+        MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
+        mybatisSqlSessionFactoryBean.setDataSource(dataSource);
+        return mybatisSqlSessionFactoryBean;
+    }
+}
+
+```
