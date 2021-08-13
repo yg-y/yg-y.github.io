@@ -494,3 +494,14 @@ public class SeataAutoConfig {
 }
 
 ```
+
+# 参考
+```
+seata 官网：https://seata.io/zh-cn/docs/overview/what-is-seata.html
+nacos官网：https://nacos.io/zh-cn/docs/quick-start-spring-cloud.html
+敖丙分布式事务解决方案：https://zhuanlan.zhihu.com/p/183753774
+事务隔离级别：https://zhuanlan.zhihu.com/p/117476959
+
+项目源码：
+https://github.com/yg-y/seata-example
+```
