@@ -222,6 +222,14 @@ function getContent() {
             tag: 'XXL-JOB',
             creatTime: '2021-04-21',
             auth: '小羊'
+        }, {
+            id: 26,
+            name: 'Docker 部署 ELK (ElasticSearch/Logstash/Kibana) 日志收集分析系统',
+            titleName: 'ELK（Elasticsearch，Logstash，Kibana），用来收集日志还有进行日志分析，最后通过可视化UI进行展示。在大量日志产生的项目场景中，ELK是收集、分析日志的利器！',
+            fileUrl: './md/logs/elk-guide.md',
+            tag: 'ELK',
+            creatTime: '2021-12-31',
+            auth: '小羊'
         },
     ]
     return data
