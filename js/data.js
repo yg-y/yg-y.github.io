@@ -74,8 +74,8 @@ function getContent() {
             auth: '小羊'
         }, {
             id: 9100,
-            name: '简历',
-            titleName: '简历',
+            name: '杨广-JAVA 开发工程-简历',
+            titleName: '杨广-JAVA 开发工程-简历',
             fileUrl: './md/简历.md',
             tag: '简历',
             creatTime: '2020-09-14',
