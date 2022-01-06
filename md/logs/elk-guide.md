@@ -36,6 +36,8 @@ services:
     image: kibana:7.8.0
     container_name: elk-kibana
     restart: always
+    depends_on:
+      - elasticsearch #kibana在elasticsearch启动之后再启动
     environment:
       ELASTICSEARCH_HOSTS: http://elk-es:9200
       I18N_LOCALE: zh-CN
@@ -45,6 +47,8 @@ services:
     image: logstash:7.8.0
     container_name: elk-logstash
     restart: always
+    depends_on:
+      - elasticsearch #logstash在elasticsearch启动之后再启动
     environment:
       XPACK_MONITORING_ENABLED: "false"
       pipeline.batch.size: 10
