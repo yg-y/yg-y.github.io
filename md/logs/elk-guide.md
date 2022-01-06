@@ -7,47 +7,52 @@
 - docker-compose.yml
 
 ```yaml
+# es.yml
 version: '3'
 services:
   elasticsearch:
-    image: elasticsearch:7.7.0  #镜像
-    container_name: elk_elasticsearch  #定义容器名称
-    restart: always  #开机启动，失败也会一直重启
+    image: elasticsearch:7.8.0
+    container_name: elk-es
+    restart: always
     environment:
-      - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
-      - "discovery.type=single-node" #以单一节点模式启动
-      - "ES_JAVA_OPTS=-Xms512m -Xmx1024m" #设置使用jvm内存大小
+      # 开启内存锁定
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "TAKE_FILE_OWNERSHIP=true"
+      # 指定单节点启动
+      - discovery.type=single-node
+    ulimits:
+      # 取消内存相关限制  用于开启内存锁定
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - ./conf/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
-      - ./conf/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
+      - ./logs/data:/usr/share/elasticsearch/data
+      - ./logs:/usr/share/elasticsearch/logs
+      - ./logs/plugins:/usr/share/elasticsearch/plugins
     ports:
       - "9200:9200"
   kibana:
-    image: kibana:7.7.0
-    container_name: elk_kibana
+    image: kibana:7.8.0
+    container_name: elk-kibana
     restart: always
-    depends_on:
-      - elasticsearch #kibana在elasticsearch启动之后再启动
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200 #设置访问elasticsearch的地址
+      ELASTICSEARCH_HOSTS: http://elk-es:9200
+      I18N_LOCALE: zh-CN
     ports:
       - "5601:5601"
   logstash:
-    image: logstash:7.7.0
-    container_name: elk_logstash
+    image: logstash:7.8.0
+    container_name: elk-logstash
     restart: always
+    environment:
+      XPACK_MONITORING_ENABLED: "false"
+      pipeline.batch.size: 10
     volumes:
-      - ./conf/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf #挂载logstash的配置文件
-    depends_on:
-      - elasticsearch #kibana在elasticsearch启动之后再启动
-    links:
-      - elasticsearch:es #可以用es这个域名访问elasticsearch服务
+      - ./conf/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
-      - "4560:4560"
+      - "4560:4560" #设置端口
 
-#汉化kibana
-#docker exec -it elk_kibana /bin/bash -c "echo "i18n.locale: zh-CN" >> /opt/kibana/config/kibana.yml"
-#docker restart elk_kibana
 ```
 
 - logstash 的配置文件 logstash-springboot.conf
@@ -156,3 +161,7 @@ public String printLogs(){
 - ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3y3qnk9j21u60py47o.jpg)
 - 等待创建完成
 - ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3yrts50j21tg0b8jug.jpg)
+- 再次去到  kibana -> discover 即可查看日志
+- ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3tgoxr6qj22xo1gsb29.jpg)
+- 搜索
+- ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3thga1yfj22xc1hg4qp.jpg)
