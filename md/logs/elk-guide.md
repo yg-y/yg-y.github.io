@@ -144,24 +144,24 @@ eac2af4bfa55   kibana:7.7.0          "/usr/local/bin/dumb…"   6 hours ago     
 ```java
 @GetMapping("/logs")
 public String printLogs(){
-    log.info(this.getClass().getSimpleName()+" info : "+LocalDateTime.now().getSecond());
-    log.warn(this.getClass().getSimpleName()+" warn : "+LocalDateTime.now().getSecond());
-    log.error(this.getClass().getSimpleName()+" error : "+LocalDateTime.now().getSecond());
-    return"logs";
-}
+        log.info(this.getClass().getSimpleName()+" info : "+LocalDateTime.now().getSecond());
+        log.warn(this.getClass().getSimpleName()+" warn : "+LocalDateTime.now().getSecond());
+        log.error(this.getClass().getSimpleName()+" error : "+LocalDateTime.now().getSecond());
+        return"logs";
+        }
 ```
 
-- ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3vog1vaj21wo0eyat4.jpg)
+![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3vog1vaj21wo0eyat4.jpg)
 
 - 然后去到 kibana -> discover 目录配置索引模式
-- ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3wru4rlj22yo1mmh8s.jpg)
+  ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3wru4rlj22yo1mmh8s.jpg)
 - 输入索引、点击下一步
-- ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3xn07dzj21uo0p8th8.jpg)
+  ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3xn07dzj21uo0p8th8.jpg)
 - 创建索引模式
-- ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3y3qnk9j21u60py47o.jpg)
+  ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3y3qnk9j21u60py47o.jpg)
 - 等待创建完成
-- ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3yrts50j21tg0b8jug.jpg)
-- 再次去到  kibana -> discover 即可查看日志
-- ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3tgoxr6qj22xo1gsb29.jpg)
+  ![image.png](http://tva1.sinaimg.cn/mw690/a760927bgy1gxx3yrts50j21tg0b8jug.jpg)
+- 再次去到 kibana -> discover 即可查看日志
+  ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3tgoxr6qj22xo1gsb29.jpg)
 - 搜索
-- ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3thga1yfj22xc1hg4qp.jpg)
+  ![image.png](http://tva1.sinaimg.cn/large/a760927bgy1gy3thga1yfj22xc1hg4qp.jpg)
