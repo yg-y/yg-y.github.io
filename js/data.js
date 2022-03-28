@@ -230,6 +230,14 @@ function getContent() {
             tag: 'ELK',
             creatTime: '2021-12-31',
             auth: '小羊'
+        },{
+            id: 27,
+            name: '【K8S】Kubernetes 集群安装',
+            titleName: 'Kubernetes 集群安装',
+            fileUrl: './md/k8s/k8s-cluster.md',
+            tag: 'k8s',
+            creatTime: '2022-03-28',
+            auth: '小羊'
         },
     ]
     return data
