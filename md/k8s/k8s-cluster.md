@@ -160,6 +160,7 @@ kubeadm join 10.0.8.3:6443 --token e2yw4h.dalxmwfgwbjeinjg \
 - 记住 kukeadm join 命令，让子节点加入 master，24小时有效
 ```shell
 # 子节点执行
+# 如果链接超时失败，检查防火墙是否开启 6443 端口
 kubeadm join 10.0.8.3:6443 --token e2yw4h.dalxmwfgwbjeinjg \
         --discovery-token-ca-cert-hash sha256:ff71ff785973077d39cba50efab6acb726ef52f8c878a33ed6ad73498805f557 
         
