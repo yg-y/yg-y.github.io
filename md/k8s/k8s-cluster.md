@@ -12,14 +12,30 @@
 # install.sh ip hostname 
 
 # 每个节点分别设置对应主机名
+# 每个节点分别设置对应主机名
 hostnamectl set-hostname &1
 
-# 配置 hosts
 echo "&0 &1" >> /etc/hosts
 
 # 所有节点关闭 SELinux
 setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+#关闭swap
+swapoff -a  
+sed -ri 's/.*swap.*/#&/' /etc/fstab
+
+#允许 iptables 检查桥接流量
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
+
 
 # 添加 k8s 安装源
 cat <<EOF > kubernetes.repo
@@ -35,6 +51,7 @@ mv kubernetes.repo /etc/yum.repos.d/
 
 # 添加 Docker 安装源
 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
 
 yum install -y kubelet kubeadm kubectl docker-ce
 
