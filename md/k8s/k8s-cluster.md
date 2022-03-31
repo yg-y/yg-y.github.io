@@ -1,4 +1,4 @@
-# 【k8s】kubernetes 集群安装
+# 【k8s】kubernetes kubeadm 集群安装
 
 # install.sh
 > 所有机器执行此脚本
