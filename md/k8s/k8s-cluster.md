@@ -12,10 +12,9 @@
 # install.sh ip hostname 
 
 # 每个节点分别设置对应主机名
-# 每个节点分别设置对应主机名
 hostnamectl set-hostname &1
 
-echo "&0 &1" >> /etc/hosts
+echo "&0 &1" > /etc/hosts
 
 # 所有节点关闭 SELinux
 setenforce 0
@@ -174,7 +173,7 @@ kubeadm join 10.0.8.3:6443 --token e2yw4h.dalxmwfgwbjeinjg \
 ```
 
 # 子节点
-- 记住 kukeadm join 命令，让子节点加入 master，24小时有效
+- 记住 kubeadm join 命令，让子节点加入 master，24小时有效
 ```shell
 # 子节点执行
 # 如果链接超时失败，检查防火墙是否开启 6443 端口
