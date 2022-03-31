@@ -12,9 +12,9 @@
 # install.sh ip hostname 
 
 # 每个节点分别设置对应主机名
-hostnamectl set-hostname &1
+hostnamectl set-hostname $1
 
-echo "&0 &1" > /etc/hosts
+echo $1 $2 > /etc/hosts
 
 # 所有节点关闭 SELinux
 setenforce 0
