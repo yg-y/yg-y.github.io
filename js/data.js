@@ -232,11 +232,19 @@ function getContent() {
             auth: '小羊'
         },{
             id: 27,
-            name: '【K8S】Kubernetes 集群安装',
+            name: '【K8S】使用 kubeadm 对 Kubernetes 进行集群安装',
             titleName: 'Kubernetes 集群安装',
             fileUrl: './md/k8s/k8s-cluster.md',
             tag: 'k8s',
             creatTime: '2022-03-28',
+            auth: '小羊'
+        }, {
+            id: 28,
+            name: '【K8S】使用 KubeKey 安装 Kubernetes 集群及 Kubesphere',
+            titleName: '使用 KubeKey 安装 Kubernetes 集群及 Kubesphere',
+            fileUrl: './md/k8s/k8s-kube-key.md',
+            tag: 'k8s',
+            creatTime: '2022-03-31',
             auth: '小羊'
         },
     ]
