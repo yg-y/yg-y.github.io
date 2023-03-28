@@ -61,6 +61,14 @@ function getContentPhoto() {
             tag: '摄影',
             creatTime: '2021-04-27',
             auth: '小羊'
+        },{
+            id: 8,
+            name: '国庆银川8天路兴攻略',
+            titleName: '国庆银川8天路兴攻略',
+            fileUrl: './md/photo/yinchuan.md',
+            tag: '摄影',
+            creatTime: '2023-03-28',
+            auth: '小羊'
         },
     ]
     return data
