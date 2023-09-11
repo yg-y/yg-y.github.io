@@ -246,6 +246,14 @@ function getContent() {
             tag: 'k8s',
             creatTime: '2022-03-31',
             auth: '小羊'
+        },{
+            id: 29,
+            name: 'Jenkins 自动部署项目到 Kubernetes',
+            titleName: '使用 Jenkins 自动部署项目到 Kubernetes',
+            fileUrl: './md/cicd/jenkins.md',
+            tag: 'cicd',
+            creatTime: '2023-09-11',
+            auth: '小羊'
         },
     ]
     return data
