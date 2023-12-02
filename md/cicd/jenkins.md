@@ -12,11 +12,12 @@ Kuboard: https://kuboard.cn/
 ```shell
 docker run --name jenkins-blueocean --restart=on-failure --detach \
   --network jenkins \
-  --publish 8080:8080 --publish 50000:50000 \
+  --publish 8089:8080 --publish 50000:50000 \
   --user=root \
   --volume /mnt/:/var/jenkins_home \
   --volume /workspace/jdk1.8:/usr/bin/jdk1.8 \
   --volume /workspace/maven3.6.3:/usr/bin/maven3.6.3 \
+  --volume /workspace/mvnd:/usr/bin/mvnd \
   --volume /usr/bin/docker:/usr/bin/docker \
   --volume /var/run/docker.sock:/var/run/docker.sock \
   --volume /root/.docker/config.jsoet:/root/.docker/config.jsoet \
